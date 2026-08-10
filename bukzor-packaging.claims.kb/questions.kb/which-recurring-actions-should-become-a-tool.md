@@ -4,6 +4,8 @@ standing: agent
 why:
     - ../seams.kb/a-cluster-is-legitimate-when-no-member-is-isolated.md
     - ../levels.kb/observation-comes-in-four-levels.md
+    - ../genesis.kb/a-tool-is-worth-building-when-benefit-over-cost-exceeds-one.md
+    - ../genesis.kb/friction-is-paid-per-invocation.md
 ---
 
 # Which Recurring Actions Should Become a Tool?
@@ -23,8 +25,17 @@ over tools that don't. Its carrier is a **log of actions**, not a file tree --
 so `ls` does not enumerate the population, `dispositions.md` cannot index it,
 and *G* is undefined on it. The ledger's apparatus does not apply as built.
 
-**This ledger does not answer it.** Saying so is the finding; the rest of this
-file is what it would take.
+**It is two questions, and only one of them is open.** *Whether* a candidate
+earns a tool is settled by `../genesis.kb/`: the quotient gate, the ⅓ discount
+on predicted use, and the three benefit kinds it decomposes into. *Which*
+candidates exist is a discovery problem over the log, and that is the part
+nothing here answers.
+
+An earlier version of this file said the ledger did not answer the question at
+all. That was true when it was written and is the reason `genesis.kb` exists:
+the decision rule was missing, and it was missing because this file mistook a
+missing *measurement* for a missing *rule*. A rule was available without the
+measurement, and the measurement is still not taken.
 
 ## The structure transfers with the carrier swapped
 
@@ -60,12 +71,17 @@ crossings). Nothing about it needs new infrastructure.
 That is a pleasing loop worth naming: the first product of the packaging
 question is the instrument for its unanswered fourth part.
 
-## Residue -- all of it
+## Residue -- the discovery half
 
 - Nobody has run the analysis. Every word above about what it would find is a
   conjecture with no exhibit, which by this ledger's own bar
   (`a citation is not an exhibit`) means this claim earns no more than
   `agent` standing.
+- The same unrun analysis is the missing proxy for
+  `../genesis.kb/friction-is-paid-per-invocation.md`, whose numerator is
+  recurrence × barrier. So one measurement settles the discovery half of this
+  question *and* grounds every friction estimate in the kb. It is the highest
+  quotient unbuilt thing named anywhere here, by its own rule.
 - The internality condition is guessed, not validated. Plausible failure: the
   strongest signal is a *discontiguous* pattern -- a command run at the start
   of every session and another at the end -- which the contiguity requirement
