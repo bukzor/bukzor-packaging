@@ -9,10 +9,12 @@ function is stable, and nothing here recomputes or checks it.
 Usage: coherence.py [--derived] [--shadow]
 
   --derived  walk the worktrees and re-derive each store key (the default)
-  --shadow   which claude-slug implementation wins, and who else has one
+  --shadow   every site implementing the encoding, which one PATH picks, and
+             what a fresh clone of the dotfiles repo would get instead
 
-Exits nonzero when a store key disagrees with today's encoder, or when two
-worktrees claim one store.
+Exits nonzero when a store key disagrees with today's encoder, when two
+worktrees claim one store, when a fresh clone would not reproduce the live
+encoder, or while more than one file implements the encoding.
 """
 
 from __future__ import annotations
@@ -22,6 +24,7 @@ import os
 import pathlib
 import re
 import shutil
+import subprocess
 import sys
 
 STORE = pathlib.Path.home() / ".local/state/git-localhost-store/repos"
@@ -108,9 +111,81 @@ def check_derived() -> int:
 
 GLS_SHIM = pathlib.Path.home() / ".local/share/git-localhost-store/bin/claude-path"
 
+# $HOME is the dotfiles working tree, so `git -C ~` answers for `~/bin`.
+DOTFILES = pathlib.Path.home()
+LIVE_ENCODER = "bin/claude-path"
+
+# Where a copy of the encoding could hide. Globbed rather than listed, so a
+# sixth copy shows up here the day it is made.
+SITE_GLOBS = (
+    "bin/claude-*",
+    "repo/github.com/bukzor/*/bin/claude-slug",
+    "repo/github.com/bukzor/*/bin/claude-path",
+)
+
+LEGACY_SED = re.compile(r"s/-/--/")
+DELEGATES = re.compile(r"claude-slug")
+
+
+def classify(body: str) -> str:
+    """Which encoding a file implements, by inspection."""
+    if NON_ALNUM.pattern in body:
+        return "current"
+    if LEGACY_SED.search(body):
+        return "LEGACY"
+    if DELEGATES.search(body):
+        return "delegates"
+    return ""
+
+
+def tracking(path: pathlib.Path) -> str:
+    """Whether the file is committed, modified, or in no repo at all."""
+    top = run(["git", "-C", str(path.parent), "rev-parse", "--show-toplevel"])
+    if not top:
+        return "no repo"
+    rel = str(path.relative_to(pathlib.Path(top)))
+    status = run(["git", "-C", top, "status", "--porcelain", "--", rel])
+    if status.startswith("??"):
+        return "UNTRACKED"
+    return "modified" if status else "committed"
+
+
+def run(argv: list[str]) -> str:
+    done = subprocess.run(argv, capture_output=True, text=True)
+    return done.stdout.strip() if done.returncode == 0 else ""
+
+
+def source_of(path: pathlib.Path) -> str:
+    """Which tracked file this is, so two checkouts of one repo count once."""
+    top = run(["git", "-C", str(path.parent), "rev-parse", "--show-toplevel"])
+    if not top:
+        return str(path)
+    remote = run(["git", "-C", top, "remote", "get-url", "origin"]) or top
+    return f"{remote}:{path.relative_to(pathlib.Path(top))}"
+
+
+def sites() -> list[tuple[pathlib.Path, int, str]]:
+    """Every file implementing the encoding, with the line that does it."""
+    found: list[tuple[pathlib.Path, int, str]] = []
+    for glob in SITE_GLOBS:
+        for path in sorted(pathlib.Path.home().glob(glob)):
+            if path.is_symlink() or not path.is_file():
+                continue
+            body = path.read_text(errors="replace")
+            kind = classify(body)
+            if not kind:
+                continue
+            hit = next(
+                line_no
+                for line_no, line in enumerate(body.splitlines(), 1)
+                if classify(line) == kind
+            )
+            found.append((path, hit, kind))
+    return found
+
 
 def check_shadow() -> int:
-    """Two live implementations of the encoding; search order picks one."""
+    """Live implementations of one fact, and what resolves between them."""
     print(f"claude-slug resolves to:      {shutil.which('claude-slug')}")
     print(
         f"PATH offers:                  {os.environ.get('PATH', '').count(':') + 1} dirs"
@@ -120,12 +195,48 @@ def check_shadow() -> int:
             f"git-localhost-store bypasses PATH via a symlink -> {GLS_SHIM.readlink()}"
         )
 
-    for name in sorted(p.name for p in BIN.glob("claude-*")):
-        body = (BIN / name).read_text(errors="replace")
-        for line_no, line in enumerate(body.splitlines(), 1):
-            if NON_ALNUM.pattern in line:
-                print(f"encoding implemented at:      {name}:{line_no}")
-    return 0
+    print("\nsites implementing the encoding:")
+    by_source: dict[str, set[str]] = collections.defaultdict(set)
+    for path, line_no, kind in sites():
+        short = str(path).replace(str(pathlib.Path.home()), "~")
+        print(f"  {kind:<10} {tracking(path):<10} {short}:{line_no}")
+        by_source[source_of(path)].add(kind)
+
+    # Two checkouts of one repo are one copy of the fact -- unless they are at
+    # different commits, in which case the fact has forked without an edit.
+    copies = [source for source, kinds in by_source.items() if "current" in kinds]
+    for source, kinds in sorted(by_source.items()):
+        if len(kinds) > 1:
+            print(
+                f"\none tracked file, checkouts disagreeing: {source} -> {sorted(kinds)}"
+            )
+
+    # The live encoder runs from one working tree. What would a clone get?
+    # Delegation counts: claude-path is allowed to have no encoding of its own,
+    # as long as the file it hands off to is in the same commit.
+    head_path = classify(
+        run(["git", "-C", str(DOTFILES), "show", f"HEAD:{LIVE_ENCODER}"])
+    )
+    head_slug = classify(
+        run(["git", "-C", str(DOTFILES), "show", "HEAD:bin/claude-slug"])
+    )
+    print(f"\nHEAD:{LIVE_ENCODER} implements: {head_path or 'ABSENT'}")
+    print(
+        f"HEAD:bin/claude-slug implements: {head_slug or 'ABSENT -- a clone has none'}"
+    )
+
+    clone_reproduces = head_slug == "current" and head_path in ("current", "delegates")
+    if not clone_reproduces:
+        print(
+            "\nA fresh clone of the dotfiles repo does not reproduce the live encoder,"
+            "\nwhich is the encoder 53 store directories were named by."
+        )
+    if len(copies) > 1:
+        print(
+            f"\n{len(copies)} tracked files implement the encoding independently, and"
+            "\nnothing declares which is authoritative -- PATH order decides."
+        )
+    return 0 if clone_reproduces and len(copies) <= 1 else 1
 
 
 def main(argv: list[str]) -> int:
