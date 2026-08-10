@@ -1,3 +1,7 @@
+---
+last-updated: 2026-08-10
+---
+
 # Dispositions
 
 Index of tools in scope and where each currently lands. `dotfiles` means

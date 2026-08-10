@@ -39,8 +39,3 @@ every tool in scope and where it currently lands).
   file becomes the record of which seam was chosen and what it cost.
 - Estimates here are cost/benefit claims. Write the estimate down, not
   just the conclusion, so a later reader can attack the estimate.
-- **Root `.md` files carry no frontmatter, deliberately.** This project's
-  root is itself a `.kb`, so `bin/llm.kb-validate` reads its root files as
-  collection items and demands a sibling `bukzor-packaging.jsonschema.yaml`
-  that cannot live inside the repo. They're synthesis files; `last-updated`
-  is what git already tracks. Don't add it back.

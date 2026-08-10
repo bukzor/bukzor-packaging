@@ -1,3 +1,7 @@
+---
+last-updated: 2026-08-10
+---
+
 # Packaging bukzor's ad-hoc tools
 
 ## The standing questions
