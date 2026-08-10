@@ -44,11 +44,14 @@ consumers that must not disagree:
 
 ## Why it can't stay ambient
 
-`git-localhost-store` currently reaches it by absolute symlink:
-`~/.local/share/git-localhost-store/bin/claude-path -> ~/bin/claude-path`.
-That's an undeclared runtime dependency on `~/bin` being present, which
-survives only because both live in one dotfiles repo. Package the consumer
-and the symlink becomes a real dependency edge or a broken install.
+`git-localhost-store` reaches it as a **bare command** -- line 33,
+`ENCODED="$(claude-path "$WORK_DIR")"` -- so PATH decides, on every hook firing
+in every relocated repo. That's an undeclared, unpinned runtime dependency,
+and it survives only because both ends ride along in one dotfiles clone.
+(Its own `bin/` also holds an absolute symlink to the encoder, but that
+directory is on PATH only under its test harness, so the symlink pins the tests
+and nothing else.) Package the consumer and the bare command becomes a real
+dependency edge or a broken install.
 
 Live evidence, captured while creating this kb: `git init` here triggered
 GLS, which computed `-home-bukzor-claude-bukzor-packaging-kb` and relocated
@@ -151,10 +154,12 @@ The estimate was "a `pyproject.toml`, two entry points, a meta-package row, a
 README row, and the port itself -- call it an hour." **Actual: about an hour for
 that list, and the list was incomplete.**
 
-What it missed: retargeting `git-localhost-store`'s symlink. GLS runs
-`claude-path` at line 33 on *every* hook firing, before the `[ -L .git ]` exit,
-so a dangling symlink does not fail a test -- it fails `git commit` in roughly
-50 repositories. That step was load-bearing and unbudgeted.
+What it missed: keeping `git-localhost-store` alive across the swap. GLS calls
+`claude-path` as a bare command at line 33 on *every* hook firing, before the
+`[ -L .git ]` exit, so **the install had to precede the deletion or `git commit`
+fails in roughly 50 repositories** -- which is why both happened in one session.
+Its `bin/` symlink needed retargeting too, though that one only reaches its test
+harness. Two steps, both load-bearing, neither budgeted.
 
 The lesson generalizes and is filed as one: an estimate covering the artifact
 can omit the *installation*, and the omitted part is the part that touches

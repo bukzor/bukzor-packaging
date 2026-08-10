@@ -48,9 +48,16 @@ This is the strongest remaining argument for giving it its own repo instead.
 
 ## Dependency
 
-`bin/claude-path` at line 33: `ENCODED="$(claude-path "$WORK_DIR")"`,
-reached by absolute symlink into `~/bin`. Must become a dependency on
-`claude-slug`.
+`bin/claude-path` at line 33: `ENCODED="$(claude-path "$WORK_DIR")"` -- a bare
+command, so PATH resolves it at every hook firing. `claude-code-slug` shipped
+2026-08-10 and now provides it, but nothing here declares that: the edge is real
+and undeclared. Must become `dependencies = ["claude-code-slug"]`, which is
+`../refactors.kb/declare-the-encoder-in-git-localhost-store.md` and is blocked on
+this package existing.
+
+The symlink in this tool's own `bin/` is a separate and smaller thing: that
+directory is on PATH only when the test harness prepends it, so the symlink pins
+the tests to a machine-specific path and does not touch production.
 
 The encoding cannot simply be replaced with a local one: store directories
 already exist under `~/.local/state/git-localhost-store/repos/` using it
