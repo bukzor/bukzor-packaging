@@ -128,11 +128,43 @@ SITE_GLOBS = (
 )
 
 LEGACY_SED = re.compile(r"s/-/--/")
-DELEGATES = re.compile(r"claude-(slug|path)\b")
+DELEGATES = re.compile(r"claude[-_](code[-_])?(slug|path)\b")
+
+COMMENT = re.compile(r"(^|\s)#.*$")
+TRIPLE = re.compile(r"\"\"\"|'''")
+# A dependency row is structured metadata, not prose, and in a PEP 723 script it
+# lives *inside* a comment block by design -- so it survives the strip below. It
+# is also the strongest evidence of delegation there is: a declared version.
+DEP_ROW = re.compile(r"dependencies\s*=")
+
+
+def code_only(body: str) -> str:
+    """The body with prose blanked and line positions preserved.
+
+    A file that merely *discusses* the encoding graded the same as one that
+    implements it, because a docstring mention of `claude-path` matched. Right
+    answer, wrong evidence -- and a file with only the prose would have graded
+    the same way. Lines are blanked rather than dropped so the reported line
+    number still points at the real code.
+    """
+    kept: list[str] = []
+    in_doc = False
+    for line in body.splitlines():
+        was_doc = in_doc
+        marks = len(TRIPLE.findall(line))
+        if marks % 2:
+            in_doc = not in_doc
+        if DEP_ROW.search(line):
+            kept.append(line)
+        elif was_doc or marks:
+            kept.append("")
+        else:
+            kept.append(COMMENT.sub(r"\1", line))
+    return "\n".join(kept)
 
 
 def classify(body: str) -> str:
-    """Which encoding a file implements, by inspection."""
+    """Which encoding a file implements, by inspection of its code."""
     if NON_ALNUM.pattern in body:
         return "current"
     if LEGACY_SED.search(body):
@@ -159,13 +191,29 @@ def run(argv: list[str]) -> str:
     return done.stdout.strip() if done.returncode == 0 else ""
 
 
-def source_of(path: pathlib.Path) -> str:
-    """Which tracked file this is, so two checkouts of one repo count once."""
+def had(top: str, rel: str) -> bool:
+    """Whether this checkout's branch ever contained the path.
+
+    `git log -- <path>` is empty for a path the branch never had, which is what
+    separates *behind a deletion* -- a retirement that did not propagate -- from
+    *behind an addition*. Both are staleness; only the first is a retirement
+    somebody believed was finished.
+    """
+    return bool(run(["git", "-C", top, "log", "--oneline", "-1", "--", rel]))
+
+
+def provenance(path: pathlib.Path) -> tuple[str, str, str]:
+    """`(source, origin, checkout)` -- which tracked file, and which clone of it.
+
+    Two checkouts of one repo are one copy of the fact, so the source is the
+    (origin, path) pair. The checkout is kept separately because a *deletion*
+    is scoped to a checkout: one clone can carry a file another has removed.
+    """
     top = run(["git", "-C", str(path.parent), "rev-parse", "--show-toplevel"])
     if not top:
-        return str(path)
-    remote = run(["git", "-C", top, "remote", "get-url", "origin"]) or top
-    return f"{remote}:{path.relative_to(pathlib.Path(top))}"
+        return str(path), "", ""
+    origin = run(["git", "-C", top, "remote", "get-url", "origin"]) or top
+    return f"{origin}:{path.relative_to(pathlib.Path(top))}", origin, top
 
 
 def installed_prefix(command: str) -> pathlib.Path | None:
@@ -247,18 +295,54 @@ def check_shadow() -> int:
 
     print("\nsites implementing the encoding:")
     by_source: dict[str, set[str]] = collections.defaultdict(set)
+    origin_of: dict[str, str] = {}
+    rel_of: dict[str, str] = {}
+    clones: dict[str, set[str]] = collections.defaultdict(set)
     for path, line_no, kind in sites():
         short = str(path).replace(str(pathlib.Path.home()), "~")
         print(f"  {kind:<10} {tracking(path):<10} {short}:{line_no}")
-        by_source[source_of(path)].add(kind)
+        source, origin, top = provenance(path)
+        by_source[source].add(kind)
+        if origin:
+            origin_of[source] = origin
+            rel_of[source] = str(path.relative_to(pathlib.Path(top)))
+            clones[origin].add(top)
 
-    # Two checkouts of one repo are one copy of the fact -- unless they are at
-    # different commits, in which case the fact has forked without an edit.
-    copies = [source for source, kinds in by_source.items() if "current" in kinds]
-    for source, kinds in sorted(by_source.items()):
-        if len(kinds) > 1:
+    # Three states, three fixes. A source whose checkouts disagree has forked
+    # without an edit (fix: pull). A source missing from a sibling checkout is a
+    # commit that has not propagated (fix: pull, and not a design defect). Only
+    # what remains is a second implementation somebody chose.
+    forked = {source for source, kinds in by_source.items() if len(kinds) > 1}
+    absent: dict[str, list[tuple[str, bool]]] = {}
+    for source, rel in rel_of.items():
+        gaps = [
+            (top, had(top, rel))
+            for top in sorted(clones[origin_of[source]])
+            if not (pathlib.Path(top) / rel).exists()
+        ]
+        if gaps:
+            absent[source] = gaps
+    behind = set(absent)
+    implementing = {
+        source for source, kinds in by_source.items() if kinds & {"current", "LEGACY"}
+    }
+    live = implementing - forked - behind
+
+    for source in sorted(forked):
+        print(f"\nWARN  one tracked file, checkouts disagreeing: {source}")
+        print(f"        -> {sorted(by_source[source])}; converges on a pull")
+    for source, gaps in sorted(absent.items()):
+        print(f"\nWARN  one clone has this file and another does not: {source}")
+        for top, deleted in gaps:
+            short = top.replace(str(pathlib.Path.home()), "~")
             print(
-                f"\none tracked file, checkouts disagreeing: {source} -> {sorted(kinds)}"
+                f"        {short} "
+                + (
+                    "deleted it, so the clone still carrying it is behind"
+                    if deleted
+                    else "never had it, so that clone is behind an addition"
+                )
+                + " -- scoped to a checkout, not to a repo"
             )
 
     if len(declared) < len(COMMANDS):
@@ -267,12 +351,12 @@ def check_shadow() -> int:
             "\nas an installed distribution, so nothing versions the encoder that"
             "\n53 store directories were named by."
         )
-    if len(copies) > 1:
+    if len(live) > 1:
         print(
-            f"\n{len(copies)} files implement the encoding independently, and nothing"
+            f"\n{len(live)} files implement the encoding independently, and nothing"
             "\ndeclares which is authoritative -- PATH order decides."
         )
-    return 0 if len(declared) == len(COMMANDS) and len(copies) <= 1 else 1
+    return 0 if len(declared) == len(COMMANDS) and len(live) <= 1 else 1
 
 
 def main(argv: list[str]) -> int:
