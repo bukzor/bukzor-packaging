@@ -26,12 +26,16 @@ are re-asked of entries that already exist.
 
 `bukzor-tools` holds three shipped packages; `claude-code-archeology` is
 the first that was a graduation rather than a new build. `~/bin/claude-*`
-is the working front: 16 scripts, of which 3 are true config aliases, 1
-is a relic, and the rest carry testable knowledge that is currently
-untested.
+is the working front: 16 scripts, of which exactly 1 is a relic being
+retired, and the rest carry testable knowledge that is currently untested.
 
 Read `dispositions.md` first -- it is the index, and it answers "what
 about X?" without opening a collection.
+
+`bukzor-packaging.claims.md` is the formal account: which claims these
+decisions rest on, who signed each, and the checks that keep the numbers
+honest. The collections here don't depend on it -- read it when you want to
+argue with a conclusion rather than look one up.
 
 The live disagreement worth knowing about: whether
 `claude-code-archeology` is scoped to *transcripts on disk* or to *Claude
