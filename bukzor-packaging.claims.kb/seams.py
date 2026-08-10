@@ -17,6 +17,16 @@ Verdicts per cluster, from the disposition index:
                                                   refactoring
     SINGLE   one member                        -- law vacuous, no siblings to
                                                   share with; decided by cost
+    SHIPPED  status: shipped in packages.kb/   -- members have left ~/bin on
+                                                  purpose; the graph is silent
+                                                  and PATH answers instead
+
+The SHIPPED case is not a convenience. A package that ships *deletes its
+members from ~/bin*, so every relation here goes quiet and a graph verdict
+computed over the absence reads NONE -- condemning the cluster for having
+succeeded. Shipping moves the question from "do these files reference each
+other" to "does the command exist and where does it come from", which is
+`coherence.py --shadow`'s provenance check, not this one's.
 
 Usage: seams.py [--edges] [--artifacts] [--isolated] [--index] [--twins]
        seams.py --cluster tool,tool,...
@@ -24,9 +34,10 @@ Usage: seams.py [--edges] [--artifacts] [--isolated] [--index] [--twins]
 `--cluster` judges an arbitrary member set instead of the index, so a cluster
 the index no longer carries -- a rejected one, say -- stays checkable.
 
-Exits nonzero when a cluster earns NONE, when --index finds the disposition
-map multi-valued or out of sync with ~/bin, or when --twins finds the
-open-tasks pair still drifting.
+Exits nonzero when a cluster earns NONE, when a shipped package's commands
+are missing from PATH, when --index finds the disposition map multi-valued or
+out of sync with ~/bin, or when --twins finds the open-tasks pair still
+drifting.
 """
 
 from __future__ import annotations
@@ -34,10 +45,13 @@ from __future__ import annotations
 import collections
 import pathlib
 import re
+import shutil
 import sys
 
 BIN = pathlib.Path.home() / "bin"
-INDEX = pathlib.Path(__file__).resolve().parent.parent / "dispositions.md"
+KB = pathlib.Path(__file__).resolve().parent.parent
+INDEX = KB / "dispositions.md"
+PACKAGES = KB / "packages.kb"
 
 Edges = set[tuple[str, str]]
 
@@ -78,6 +92,20 @@ def clusters() -> dict[str, list[str]]:
     return dict(out)
 
 
+def frontmatter(path: pathlib.Path) -> str:
+    found = re.match(r"^---\n(.*?)^---", path.read_text(), re.S | re.M)
+    return found.group(1) if found else ""
+
+
+def shipped() -> set[str]:
+    """Packages whose members have left ~/bin, per packages.kb/ frontmatter."""
+    return {
+        path.stem
+        for path in sorted(PACKAGES.glob("*.md"))
+        if re.search(r"^status: shipped\s*$", frontmatter(path), re.M)
+    }
+
+
 def realized(src: dict[str, str]) -> set[tuple[str, str]]:
     return {
         (n, m)
@@ -110,8 +138,13 @@ def check_index(src: dict[str, str]) -> int:
     rows = re.findall(r"^\| `([\w.-]+)` *\|", INDEX.read_text(), re.M)
     dup = [t for t, n in collections.Counter(rows).items() if n > 1]
     unindexed = sorted(set(src) - set(rows))
-    # `git-localhost-store` is indexed under "Elsewhere" and lives outside ~/bin.
-    absent = sorted(set(rows) - set(src) - {"git-localhost-store"})
+    # Indexed rows are allowed to name no file in ~/bin when the tool never
+    # lived there (`git-localhost-store`) or has shipped out of it -- a shipped
+    # member is expected to be absent, and PATH is where it answers now.
+    exempt = {"git-localhost-store"} | {
+        m for pkg, ms in clusters().items() if pkg in shipped() for m in ms
+    }
+    absent = sorted(set(rows) - set(src) - exempt)
     print(f"duplicate rows:     {dup or 'none'}")
     print(f"unindexed:          {unindexed or 'none'}")
     print(f"indexed but absent: {absent or 'none'}")
@@ -152,7 +185,14 @@ def check_twins(src: dict[str, str]) -> int:
     return 1 if drift or not referenced else 0
 
 
-def verdict(pkg: str, members: list[str], G: Edges, Gplus: Edges) -> str:
+def verdict(
+    pkg: str, members: list[str], G: Edges, Gplus: Edges, ship: set[str] = frozenset()
+) -> str:
+    if pkg in ship:
+        gone = [m for m in members if not shutil.which(m)]
+        if gone:
+            return f"BROKEN  {pkg}: shipped, but {', '.join(gone)} is not on PATH"
+        return f"SHIPPED {pkg}: {', '.join(members)} on PATH, not in ~/bin"
     iso, iso_plus = isolated(members, G), isolated(members, Gplus)
     if len(members) == 1:
         return f"SINGLE  {pkg}"
@@ -185,15 +225,15 @@ def main(argv: list[str]) -> int:
         for n, arts in sorted(incidence(src).items()):
             print(f"  {n:26} {' '.join(sorted(arts)) or '-- none --'}")
 
-    index = clusters()
+    index, ship = clusters(), shipped()
     bad = 0
     for pkg, members in sorted(index.items()):
         if pkg in NOT_A_PACKAGE:
             print(f"--      {pkg}: {', '.join(members)}")
             continue
-        line = verdict(pkg, members, G, Gplus)
+        line = verdict(pkg, members, G, Gplus, ship)
         print(line)
-        bad += line.startswith("NONE")
+        bad += line.startswith(("NONE", "BROKEN"))
 
     unindexed = set(src) - {m for ms in index.values() for m in ms}
     if unindexed:
