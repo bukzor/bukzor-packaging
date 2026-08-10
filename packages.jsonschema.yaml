@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json-schema.org/draft/2020-12/schema
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Candidate Package
+type: object
+properties:
+  status:
+    type: string
+    enum: [speculative, proposed, accepted, shipped, rejected]
+  home:
+    description: Repo the package lives (or would live) in.
+    type: string
+  language:
+    type: string
+    enum: [python, bash, mixed]
+required: [status, home, language]
+additionalProperties: false
