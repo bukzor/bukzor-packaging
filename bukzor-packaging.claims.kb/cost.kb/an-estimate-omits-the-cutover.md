@@ -33,16 +33,24 @@ omitted term.**
 entry points, a meta-package row, a README row, and the port itself -- call it
 an hour." Actual: about an hour for that list, and the list was incomplete.
 
-Missing: retargeting `git-localhost-store`'s symlink. GLS runs `claude-path` on
-*every* hook firing, at line 33, before the `[ -L .git ]` early exit -- so a
-dangling link does not fail a test, it fails `git commit` in roughly 50
-repositories. One line of work, unbudgeted, and the only step whose failure
-mode was severe.
+Missing: two steps that keep `git-localhost-store` working. It calls
+`claude-path` as a bare command on *every* hook firing, at line 33, before the
+`[ -L .git ]` early exit -- so **the install had to land before the deletion, or
+`git commit` fails in roughly fifty repositories.** And its own `bin/` carried an
+absolute symlink to the old file, which had to be retargeted or its test harness
+breaks. Both were unbudgeted; neither is visible from the package.
 
-Note what makes it the instance rather than an anecdote: the same file
-*already* identified that symlink as an undeclared dependency, in a section
-arguing for the package. The cutover was known and still not costed. Knowing
-about a dependent is not the same as pricing the edit it needs.
+Note what makes it the instance rather than an anecdote: the same file *already*
+identified that dependency, in a section arguing for the package. The cutover was
+known and still not costed. Knowing about a dependent is not the same as pricing
+the edit it needs.
+
+There is a second-order finding here, worth more than the first. The initial
+write-up of this instance named the symlink as the severe step and the PATH
+continuity as incidental; it was the reverse. **A cutover term guessed after the
+fact is not merely low -- its parts arrive mis-ranked**, because severity lives
+in how the dependent *names* what it needs, and nobody re-reads the dependent
+while estimating.
 
 ## What follows for the site/item split
 

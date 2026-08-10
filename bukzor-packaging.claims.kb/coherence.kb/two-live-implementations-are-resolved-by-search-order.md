@@ -96,17 +96,37 @@ import, so a bash `claude-slug` would leave every mechanism in place and merely
 reduce the copy count. Carried out 2026-08-10, and `claude-path`'s `exec` of its
 sibling is now an import.
 
-The symlink deserves its own sentence. It looked like a dependency and was not:
-it survived only because both ends lived in one dotfiles repo, so packaging
-either end would break it. It was retargeted at the installed console script
-during the cutover -- which is an improvement in provenance and *not* a
-`dependencies` row, so `git-localhost-store` still reaches the encoder by
-absolute path. The mechanism moved down the table; it did not leave it.
+## One consumer, two mechanisms, and the one that looked like the problem
+
+`git-localhost-store` is worth reading closely, because the obvious defect is
+not the live one. It calls the encoder **as a bare command** --
+`ENCODED="$(claude-path "$WORK_DIR")"`, line 33 -- on every hook firing in every
+relocated repo. That is row one of the table: PATH decides, per shell, and the
+first entry wins. Separately, its own `bin/` holds an absolute symlink to a
+`claude-path`, and that directory is on PATH **only when its test harness
+prepends it** (`docs/dev/testing.kb/CLAUDE.md:37`).
+
+So the two mechanisms partition by audience: **production is unpinned, and the
+tests are pinned to a machine-specific location.** Two defects, two fixes, and
+only the second one is a symlink. The correction that produced this section had
+the blast radii backwards -- a dangling symlink there breaks the test harness,
+while what would break `git commit` in roughly fifty repositories is
+`claude-path` missing from PATH.
+
+And the symlink is not really a *fifth* mechanism: it is the content of a
+directory that something else injects into PATH. **Mechanisms compose, and the
+composition is what decides** -- which is why a claim about "the symlink" was
+answering the wrong question, and why the check now prints the call site.
+
+The live hazard the corrected check surfaces is neither of those: the first
+entry on PATH is `~/bin`, the directory the encoder was just deleted from. Any
+file that reappears there silently wins in every hook firing
+(`../../mechanics.kb/path-shadowing-blocks-migration.md`).
 
 ## What would kill it
 
 A single implementation reached by a declared dependency. The port halved the
-count and fixed provenance, so this claim is now defeated for `claude-path`'s
-callers and still true for the encoding as a whole -- which is the shape a claim
-takes on its way out, and the reason `--shadow` counts sites rather than
-asserting a state.
+count and fixed provenance, and the remaining gap is now named as work rather
+than as a caveat: `../../refactors.kb/declare-the-encoder-in-git-localhost-store.md`,
+blocked on packaging its consumer. That is the shape a claim takes on its way
+out, and the reason `--shadow` counts sites rather than asserting a state.
