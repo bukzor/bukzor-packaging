@@ -110,7 +110,9 @@ def check_derived() -> int:
     return 1 if disagree or dup else 0
 
 
-GLS_SHIM = pathlib.Path.home() / ".local/share/git-localhost-store/bin/claude-path"
+GLS_BIN = pathlib.Path.home() / ".local/share/git-localhost-store/bin"
+GLS_HOOK = GLS_BIN / "git-localhost-store"
+GLS_SHIM = GLS_BIN / "claude-path"
 
 COMMANDS = ("claude-slug", "claude-path")
 
@@ -201,6 +203,23 @@ def sites() -> list[tuple[pathlib.Path, int, str]]:
     return found
 
 
+def gls_call_site() -> tuple[int, str] | None:
+    """How git-localhost-store names the encoder, and so what resolves it.
+
+    A *bare command* is resolved by PATH on every hook firing, in every
+    relocated repo. The symlink in the tool's own `bin/` binds only when
+    something puts that directory on PATH, which only its test harness does.
+    Those are two different defects with two different fixes, and only the
+    second one is a symlink -- so report the call site, not the symlink.
+    """
+    if not GLS_HOOK.is_file():
+        return None
+    for line_no, line in enumerate(GLS_HOOK.read_text().splitlines(), 1):
+        if "claude-path" in line and not line.lstrip().startswith("#"):
+            return line_no, line.strip()
+    return None
+
+
 def check_shadow() -> int:
     """Live implementations of one fact, and what resolves between them."""
     declared: list[str] = []
@@ -211,11 +230,20 @@ def check_shadow() -> int:
         print(f"{command + ' resolves to:':<30}{where}  ({source})")
         if prefix:
             declared.append(command)
-    print(f"{'PATH offers:':<30}{os.environ.get('PATH', '').count(':') + 1} dirs")
-    if GLS_SHIM.is_symlink():
+    path_dirs = os.environ.get("PATH", "").split(":")
+    print(f"{'PATH offers:':<30}{len(path_dirs)} dirs, first is {path_dirs[0]}")
+
+    call = gls_call_site()
+    if call:
+        line_no, text = call
+        print(f"{'git-localhost-store calls:':<30}{text}  (line {line_no})")
+        pinned = str(GLS_BIN) in path_dirs
         print(
-            f"git-localhost-store bypasses PATH via a symlink -> {GLS_SHIM.readlink()}"
+            f"{'  resolved by:':<30}"
+            + ("its own bin/, which is on PATH here" if pinned else "PATH, unpinned")
         )
+        if GLS_SHIM.is_symlink() and not GLS_SHIM.exists():
+            print(f"{'  test-harness pin:':<30}DANGLING -> {GLS_SHIM.readlink()}")
 
     print("\nsites implementing the encoding:")
     by_source: dict[str, set[str]] = collections.defaultdict(set)
