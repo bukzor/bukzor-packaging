@@ -12,7 +12,7 @@ that resolve `.git/HEAD` by path keep working. Currently at
 
 ## Why it graduates
 
-It fails all three dotfiles tests at once, and test 3 decisively (see
+It fails all three dotfiles tests at once, and AUDIENCE decisively (see
 `../criteria.kb/graduation-from-dotfiles.md`):
 
 - 49 files tracked in the dotfiles repo, including `README.md` (6.5KB),
