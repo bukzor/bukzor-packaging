@@ -21,15 +21,30 @@ move will not drag context with it. Both are debts denominated in work not
 yet done, and both are discharged the same way: by doing it and reporting
 what happened.
 
-## The confirmed instance
+## The confirmed instances
 
 `claude_code_archeology` -- `claude-search`, `claude-inventory`,
 `claude-branch-list`, `claude-branch-extract` plus seven library modules --
 was predicted separable and then extracted. Result: 43 doctests pass, four
-commands smoke-tested live, and the dotfiles copies deleted. The prediction
-was right, and it is worth *nothing* as evidence for the next one; what it
-establishes is the rate at which such predictions get confirmed, which is
-now 1 for 1 out of a plan of five.
+commands smoke-tested live, and the dotfiles copies deleted.
+
+`claude-code-slug`, shipped 2026-08-10, is the second -- and the first whose
+prediction this ledger made rather than recorded. It was called **mechanical**,
+and the port bears that out where it counts: 26 differential cases plus all 53
+live worktree paths, zero disagreements, and `--derived` byte-identical before
+and after. No key moved.
+
+But "mechanical" was wrong in a way worth keeping. The file predicted **one**
+silent-drift risk (`Path.resolve()` versus `normpath`, which would follow
+symlinks); the port found **two**, the second being that `logical_cwd()` must
+prefer `$PWD` over `os.getcwd()` for exactly the same reason from the other
+side. Two hazards in a 23-line port, one of them invisible until someone wrote
+it.
+
+So the rate is 2 for 2 out of a plan of five, and the honest reading of the
+second is that extraction is not merely *confirmation* -- it is where the
+remaining hazards are found. A prediction of "mechanical" is a prediction about
+effort, never about completeness.
 
 ## The instance with evidence against it
 
@@ -43,7 +58,8 @@ changes one tool's output, the intersection changes the other's.
 
 So this prediction is not merely unverified; the extraction is known to
 require a decision that no one has made. That is a different and worse
-status than `claude-slug`'s, whose port is mechanical.
+status than `claude-code-slug`'s was -- and the difference held up: the
+mechanical one shipped in an hour, and this one still has an undecided `ROOTS`.
 
 Recording both as "separable" flattens that difference, which is the
 concrete reason this claim earns its file.
