@@ -39,6 +39,34 @@ Live evidence, captured while creating this kb: `git init` here triggered
 GLS, which computed `-home-bukzor-claude-bukzor-packaging-kb` and relocated
 `.git` there. The encoding is load-bearing for data already on disk.
 
+## The encoding is frozen, and the port must not improve it
+
+The encoding changed once already, around 2026-07-05, when an uncommitted
+rewrite of `~/bin/claude-path` delegated to the then-new `claude-slug`. Old:
+`-` → `--`, `/` → `-`, dots verbatim. New: every non-alnum → one `-`. Written
+up in
+`~/.claude/sessions.kb/penguin/claude-path-encoding-change-orphans-stores.md`;
+migrating the affected stores was priced and **declined**, and GLS's own
+`.claude/todo.md` carries the reconciliation item.
+
+Measured 2026-08-10 across worktrees under `~/repo`, `~/claude`, `~/.claude`,
+`~/empty`, `~/trash`: **53 relocated worktrees, 19 keys matching today's
+encoder, 31 carrying the legacy encoding, 3 keyed under a path the workdir has
+since left.** Nothing is broken today, because GLS exits at `[ -L .git ]`
+(line 41) before it would recompute -- so the encoding is consulted only when a
+store is *created or recovered*.
+
+Preconditions for this package, not polish:
+
+- **port faithfully to today's encoder and stop there.** The encoding is
+  frozen; "fixing" it a second time would orphan the 19 that currently agree.
+- **preserve the early exit.** A packaged `claude-path` that eagerly recomputes
+  keys converts 34 dormant mismatches into 34 empty stores -- the failure the
+  session note calls "the system's whole purpose failing quietly".
+- **ship the check with the encoder.** Walk worktrees, re-derive, report. A
+  working prototype is `coherence.py --derived` in the claims directory; its
+  job is to bound a decision already taken, not to reopen it.
+
 ## Port to Python, don't ship the bash
 
 Decided by mechanics, not taste: a `shared-scripts` bash payload is
@@ -64,7 +92,7 @@ store directory GLS picks for a symlinked worktree.
 
 ## Duplication it would collapse
 
-- `~/bin/claude-workspace-merge:12` -- a second implementation, inlined as
+- `~/bin/claude-workspace-merge:15` -- a second implementation, inlined as
   a `claudepath()` bash function
 - `~/bin/claude-jsonl-path` -- a consumer (calls `claude-path`), correct
   today, one edit away from becoming a third copy
