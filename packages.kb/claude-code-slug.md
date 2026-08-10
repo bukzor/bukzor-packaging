@@ -11,6 +11,13 @@ module `claude_code_slug`: `slug()`, `normalize()`, `path_slug()`,
 `logical_cwd()`. The smallest package in the plan, the one two others depend
 on, and the first to be built on this kb's reasoning rather than filed by it.
 
+**Published the same day**: `claude-code-slug 0.1.0` on PyPI, sdist + wheel,
+Apache-2.0, via trusted publishing from `release-pypi.yml`. Two facts from that
+step earned files of their own -- the workflow filename is the unit of
+authorization (`../mechanics.kb/trusted-publishing-pins-the-workflow-filename.md`)
+and only a *successful* upload is irreversible, which is what makes a rehearsal
+free (`../bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`).
+
 Members, **ported not moved**, then deleted from `~/bin` (`922d325`):
 
 - `~/bin/claude-slug` (12 lines) -- `perl -CSD -pe 's/[^A-Za-z0-9]/-/g'`
@@ -87,12 +94,12 @@ Preconditions for this package, not polish:
   working prototype is `coherence.py --derived` in the claims directory; its
   job is to bound a decision already taken, not to reopen it.
 - **retire the other two implementations, don't just add a third.** `--shadow`
-  counted three independent tracked implementations. **Two retired:** dotfiles'
-  pair deleted (`922d325`), and `claude-workspace-merge`'s inline
-  `claudepath()` now calls `claude-path` (`b8559b5`). One remains and is
-  another repo's call -- `bukzor-agent-skills` vendors `bin/claude-slug` and
-  four skill scripts invoke it by explicit relative path so the repo works
-  standalone. The check stays red at 2 on purpose.
+  counted three independent tracked implementations. **All three retired:**
+  dotfiles' pair deleted (`922d325`), `claude-workspace-merge`'s inline
+  `claudepath()` now calls `claude-path` (`b8559b5`), and the copy that looked
+  unretirable -- `bukzor-agent-skills` vendored `bin/claude-slug` so the repo
+  would work standalone -- is now a PEP 723 script depending on this package
+  (`ba513bc`). Standalone and declared turned out not to be opposites.
 
 All four were met. The record of *how* is below, kept because a precondition
 that turns out to be unnecessary is as informative as one that binds.

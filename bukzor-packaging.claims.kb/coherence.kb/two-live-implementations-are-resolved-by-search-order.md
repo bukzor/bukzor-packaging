@@ -32,6 +32,7 @@ a system usually has several at once:
 | an absolute symlink | one literal path | whoever installed it |
 | an inlined copy | itself, always | nobody, and it cannot be told |
 | **a second checkout of one tracked file** | whatever that clone last pulled | whoever forgets to pull |
+| an inline script dependency (PEP 723) | one requirement, resolved per run | the script's own header |
 | a declared dependency | one version, resolved once | the lockfile |
 
 Only the last is a decision anyone made. Two of them deserve a warning:
@@ -47,13 +48,22 @@ implementations (one of them untracked, with the committed substitute
 implementing the *previous* encoding) to two, by way of a package. Exhibit:
 `../case-study.kb/the-store-key-encoding-has-drifted-twice.md`.
 
-The remaining copy is the interesting one, because it is not an oversight:
-`bukzor-agent-skills` vendors `bin/claude-slug` and four of its skill scripts
-call it by explicit relative path so the repo works standalone. That is a
-deliberate choice by a different repo, and it means this claim's population
-cannot be driven to one by anybody working here. **Search order stops deciding
-only when every caller declares a dependency, and a caller who wants to work
-standalone is refusing to.**
+The remaining copy looked like the interesting one, because it was not an
+oversight: `bukzor-agent-skills` vendored `bin/claude-slug` and four of its skill
+scripts call it by explicit relative path so the repo works standalone. I drew a
+tradeoff from that and wrote: *"search order stops deciding only when every
+caller declares a dependency, and a caller who wants to work standalone is
+refusing to."*
+
+**That is false, and the same day it was published to PyPI the copy was
+retired.** `bukzor-agent-skills/bin/claude-slug` is now
+`#!/usr/bin/env -S uv run --script` with `dependencies = ["claude-code-slug"]` in
+a PEP 723 header (`ba513bc`). The script is standalone in the sense that
+mattered -- clone the repo, run the file, no install step and no environment to
+manage -- *and* it names a versioned dependency that a resolver honors. The
+tradeoff I asserted between standing alone and declaring a dependency was an
+artifact of assuming bash. **Ask what makes standalone-ness necessary before
+concluding that duplication buys it.**
 
 The honest site deserves its own mention as a pattern: a Python module that
 documents the encoding *in prose* because it has no way to call a bash script it
