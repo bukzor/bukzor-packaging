@@ -32,14 +32,6 @@ Results:
 No entry point, no Python trampoline, no new toolchain -- **for a directly
 installed package.** The limit is below.
 
-## What still isn't free
-
-- `bukzor-tools/.pre-commit-config.yaml` has no shellcheck hook. A bash
-  member should add one; the cost is shared across all bash members, so
-  the first one to land pays it.
-- `[tool.pytest.ini_options] addopts = "--doctest-modules"` means the test
-  suite is doctests, which reach no bash. Bash tests need either a pytest
-  wrapper that shells out or conversion.
 ## The meta-package cannot re-export a bash payload
 
 Tested 2026-08-10, and it's a hard no. A `metapkg` depending on `probepkg`
