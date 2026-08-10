@@ -12,8 +12,8 @@ file in `packages.kb/`.
 
 | tool                     | loc | disposition                | why                                                                    |
 | ------------------------ | --- | -------------------------- | ---------------------------------------------------------------------- |
-| `claude-slug`            | 12  | `claude-slug`              | reverse-engineered encoding; a second implementation exists inline     |
-| `claude-path`            | 23  | `claude-slug`              | path normalization over the same encoding; GLS depends on it           |
+| `claude-slug`            | 12  | **`claude-code-slug`** (shipped) | ported to Python, deleted from `~/bin`; now a console script      |
+| `claude-path`            | 23  | **`claude-code-slug`** (shipped) | same package; GLS's symlink retargeted to the installed command   |
 | `claude-jsonl-path`      | 3   | `claude-code-archeology`   | consumer, not a copy: `claude-path` + the projects-dir location        |
 | `claude-jsonl-cwd`       | 19  | `claude-code-archeology`   | already reimplemented as `session.Session.cwd()`, doctested            |
 | `claude-jsonl-display`   | 714 | `claude-code-archeology`   | duplicates `format_short`'s block walking; see the two-schemas seam    |
@@ -24,7 +24,7 @@ file in `packages.kb/`.
 | `claude-open-tasks`      | 198 | `claude-open-tasks`        | PEP-723 python, real algorithm, overlaps its sibling                   |
 | `claude-open-tasks-list` | 212 | `claude-open-tasks`        | worktree dedup by effective mtime -- testable knowledge, untested      |
 | `claude-fork`            | 42  | unsettled                  | ex-`claude-session-lifecycle`, rejected; shares nothing with either sibling |
-| `claude-workspace-merge` | 120 | unsettled                  | likely `claude-slug`: carries an inlined copy of the encoding at line 15 |
+| `claude-workspace-merge` | 120 | unsettled                  | inline copy retired -- now calls `claude-path`; still unclustered       |
 | `claude-export`          | 86  | unsettled                  | ex-cluster; `~/.claude/shell-snapshots` is a subsystem of its own      |
 | `claude-jsonl-summarize` | 63  | unsettled                  | not yet read closely                                                   |
 | `claude-plan`            | 1   | **retire** (settled)       | `--model=opusplan`; no such alias in current `claude --help`, and the file has no shebang |
