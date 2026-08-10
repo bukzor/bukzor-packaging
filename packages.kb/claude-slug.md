@@ -41,10 +41,12 @@ GLS, which computed `-home-bukzor-claude-bukzor-packaging-kb` and relocated
 
 ## The encoding is frozen, and the port must not improve it
 
-The encoding changed once already, around 2026-07-05, when an uncommitted
-rewrite of `~/bin/claude-path` delegated to the then-new `claude-slug`. Old:
-`-` → `--`, `/` → `-`, dots verbatim. New: every non-alnum → one `-`. Written
-up in
+The encoding changed once already, around 2026-07-05, when a rewrite of
+`~/bin/claude-path` delegated to the then-new `claude-slug`. Old:
+`-` → `--`, `/` → `-`, dots verbatim. New: every non-alnum → one `-`. That
+rewrite sat **uncommitted for five weeks** and was tracked 2026-08-10
+(`c879ca1`, `d983aad` in dotfiles) after the check below reported that a fresh
+clone would still get the old encoder. Written up in
 `~/.claude/sessions.kb/penguin/claude-path-encoding-change-orphans-stores.md`;
 migrating the affected stores was priced and **declined**, and GLS's own
 `.claude/todo.md` carries the reconciliation item.
@@ -66,6 +68,10 @@ Preconditions for this package, not polish:
 - **ship the check with the encoder.** Walk worktrees, re-derive, report. A
   working prototype is `coherence.py --derived` in the claims directory; its
   job is to bound a decision already taken, not to reopen it.
+- **retire the other two implementations, don't just add a third.** `--shadow`
+  counts three independent tracked implementations today. A package that leaves
+  `bukzor-agent-skills/bin/claude-slug` and `claude-workspace-merge:15` in place
+  makes it four.
 
 ## Port to Python, don't ship the bash
 

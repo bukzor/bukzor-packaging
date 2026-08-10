@@ -21,21 +21,30 @@ Priors point up; a theory may use its priors' vocabulary and no one else's.
                        /          \
                   seams            cost
             (is it a cluster)   (is it worth it)
-                 /    \          /    \
-                /      \        /      \
-        coherence      graduation       \
-    (two copies of     (does it leave     \
-     one fact)          dotfiles)          \
-                \            |             /
-                 \           |            /
-                  +------ closure --------+
-                   (what does building
-                    decide by accident)
-                            |
-                        questions
-                  (what we were asked,
-                   twice, and the residue)
+                 /    \          /    \    \
+                /      \        /      \    genesis
+        coherence      graduation       \  (should it exist
+    (two copies of     (does it leave     \     at all)
+     one fact)          dotfiles)          \      |
+                \            |             /      |
+                 \           |            /       |
+                  +------ closure --------+       |
+                   (what does building            |
+                    decide by accident)           |
+                            |                     |
+                        questions                 |
+                  (what we were asked,            |
+                   twice, and the residue)        |
+                            |                     |
+                            +---- case-study -----+
+                              (what happened when
+                               the rules met this
+                               pile of scripts)
 ```
+
+Rules point up. `case-study.kb/` sits under everything: it holds the
+measurements, so the theories above it can be read as rules rather than as
+verdicts about sixteen particular scripts.
 
 ## What each theory holds, and what would end it
 
@@ -44,45 +53,74 @@ Priors point up; a theory may use its priors' vocabulary and no one else's.
 | `levels` | four grades of observation -- name/shape, program, knowledge, audience -- ordered by definability | an audience predicate computable from file contents |
 | `seams` | a cluster is a package only if no member is isolated in the reference graph; a second, looser relation says which failures a refactor could fix | a package worth shipping whose members share no code, now or ever |
 | `cost` | *c*(*S*) = *F* + Σ*m*(*t*); the worth-testing set is a threshold, not a property | a per-package cost that does not fall when a workspace exists |
+| `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔; benefit is friction, error cost, or reuse | a tool worth building whose benefit is none of the three kinds |
 | `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently | a duplicated fact that provably cannot diverge |
 | `graduation` | audience is necessary; knowledge or subcommands then suffice | a graduation that came out right while ignoring audience |
 | `closure` | building closes questions without deciding them; a guard must name a reversal cost | an accidental closure reversed as cheaply as it was made |
 | `questions` | the four standing questions, each stated as experienced and as well-posed | a question whose two forms coincide |
+| `case-study` | the measurements: what the rules found in this particular pile of scripts, with the commands | nothing -- a record is not a conjecture; it can only stop being reproducible |
 
 ## The picture, on one page
 
-**One.** The `claude-` prefix is not a package. Sixteen scripts sharing it
-split into one seamed cluster, three latent, one dead cluster, one relic, and
-one unread script. A second `claude-code-tools` would be bundling, which is
-what the `bukzor-tools` meta-package already does.
+Five rules, in the order a tool meets them. None of them mentions a tool name.
 
-**Two.** Three of five candidate clusters are held together by a *shared
-artifact* rather than shared code. Each such latent seam predicted a refactor
-that had already been filed independently -- `stream-json` →
-`extract-stream-json-invocation`, `todo-markdown` →
-`dedup-open-tasks-implementations`, `session-jsonl` → the record model in
-`display-renders-two-schemas`. Three for three.
+**One -- should it exist?** Build iff *b*/*c* > 1, and among competitors for one
+budget build in decreasing *b*/*c*. The quotient and the difference agree on the
+gate and disagree on the *order*, which is why the quotient is the instrument.
+Predicted use is discounted by ⅔; ongoing use counts as observed. The numerator
+is one of three kinds, summed, any one sufficient: **friction** (recurrence ×
+per-invocation barrier), **error cost** (incidence × detection+repair+damage,
+which earns a check rather than a command), **reuse** (P(needed again) ×
+re-derivation minus recall, which is what justifies a tool used twice a year).
 
-**Three.** One cluster fails even the loose relation and should not be built:
-`claude-session-lifecycle`'s three members share no artifact pairwise, and
-`claude-workspace-merge`'s artifacts point out of the cluster into two others.
-There is no structure there.
+**Two -- do several tools form a package?** Only if no member is isolated in the
+reference graph *G*. Adding artifact-incidence edges gives *G*⁺ and three
+exhaustive verdicts: **seamed**, **latent** (separable but not separate -- the
+shared artifact names the code to extract), **none** (no refactor makes this a
+package). The gap between the two relations is where the useful findings live.
 
-**Four.** "Untestable" names nothing. Testability is a relation between a tool
-and a site, the site already moved, and the moved site is Python-only -- a
-doctest costs one line, a bash test costs a hook plus a wrapper nobody has
-written. That single asymmetry decides `claude-slug`: port it, don't move it.
+**Three -- should it leave the dotfiles repo?** `AUDIENCE ∧ (KNOWLEDGE ∨
+SUBCOMMANDS)`. Audience is necessary and is not in the files, so every
+graduation is a ruling and no check can stand in for it. A tool can deserve to
+exist and deserve to stay.
 
-**Five.** The duplication is not hypothetical. Of 53 live
-`git-localhost-store` keys, 34 disagree with today's encoder, and the check
-splits them into two different findings: **31** carry the pre-2026-07-05
-encoding -- a migration that was written up, priced, and *declined*, which is a
-decision and not a defect -- and **3** are keyed under paths their worktrees
-have left, which is nobody's decision. The number the declined migration was
-decided without is the 31. The encoding has four implementation sites and
-three different mechanisms for choosing between them; packaging replaces all
-three with a declared dependency. That is the actual argument, and it is
-stronger than tidiness.
+**Four -- is it worth testing?** The question is malformed as usually asked.
+"Untestable" names nothing; there is only a threshold *b*(*t*) > *c*(*t*), and
+*c* is a property of the **site**, not the tool. Lowering the site cost
+silently invalidates every past "not worth it" verdict, and the discount is
+language-relative -- which is what decides a port versus a move.
+
+**Five -- what does duplication cost?** A fact with two implementations has no
+authoritative copy: which one a caller gets is a property of how the caller was
+invoked. Committing an untracked copy fixes *clone fidelity* and not
+*resolution* -- the two are independent, and only a declared dependency fixes
+the second. A derived key stored anywhere decays under two motions, and doing
+nothing about it silently selects "carry the staleness".
+
+And one rule about the act of deciding: **building closes questions without
+deciding them**, so a guard is earned exactly when reversing the closure costs
+more than the action.
+
+## What those rules found here
+
+The instance, with the measurements in `case-study.kb/`:
+
+- **The `claude-` prefix names no package.** Sixteen scripts split five ways:
+  one seamed cluster, three latent, one dead, one relic, four unsettled.
+- **Three for three.** Each latent seam predicted a refactor that had already
+  been filed independently -- the strongest evidence that artifact incidence
+  measures something real.
+- **One cluster killed outright.** `claude-session-lifecycle` is pairwise
+  disjoint on both relations; there is no structure there.
+- **31 decided, 3 defaulted.** Of 53 store keys, 34 disagree with today's
+  encoder: 31 from a migration that was priced and declined -- against a
+  population nobody had counted -- and 3 from worktrees that moved, which
+  nobody has priced.
+- **A live hazard, found and fixed inside an hour.** The encoder that named
+  those 53 directories was untracked, and the committed substitute implemented
+  the *previous* encoding, so a fresh clone would have silently created empty
+  stores. Tracked 2026-08-10. Three independent implementations remain, which
+  is what the package retires and a commit cannot.
 
 ## The measurement, current
 
@@ -106,6 +144,11 @@ key matches today's encoder:  19
 key disagrees:                34
   legacy encoding of it:      31  (declined migration)
   neither encoding of it:      3  (workdir moved since)
+
+$ bukzor-packaging.claims.kb/coherence.py --shadow
+HEAD:bin/claude-path implements: delegates     # clone fidelity: passing
+HEAD:bin/claude-slug implements: current
+3 tracked files implement the encoding independently       # exit 1
 ```
 
 The second command is why `--cluster` exists. `claude-session-lifecycle` was
