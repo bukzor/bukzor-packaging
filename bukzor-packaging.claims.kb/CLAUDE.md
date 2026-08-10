@@ -19,6 +19,14 @@ priors' -- admits every word the claim needs.** If you must borrow vocabulary
 from a downstream theory to state it, either it belongs downstream, or the
 upstream theory is missing a term and should gain it deliberately.
 
+**Rules upstream, measurements in `case-study.kb/`.** A theory file states a law
+and names one smallest instance in a sentence or two; the population, the
+transcript, and the date belong in a case study that carries the `verify:`. The
+test: if a paragraph would need rewriting when a script is edited, it is an
+exhibit and it is in the wrong file. This split exists because the first draft
+welded them together, and a reader could not tell which sentences would survive
+a change of machine.
+
 ## Standing conventions
 
 The schema says a certified claim's standing is `bare` -- the check stands
