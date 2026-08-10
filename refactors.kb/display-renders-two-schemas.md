@@ -28,24 +28,26 @@ renderer inherits both.
 
 ## The three resolutions
 
-1. **One package, widened scope.** Renderer goes to
-   `claude-code-archeology`, whose charter is rewritten to "Claude Code
-   record streams, live or archived". `claude-stream` shrinks to the
-   invocation core and its two commands, probably as members here too.
-2. **Renderer as its own leaf**, depended on by both -- same shape as
-   `claude-slug`. Cleanest dependency graph, one more package.
-3. **Split the renderer** along the schema boundary. Almost certainly
-   wrong: `format_*` functions overwhelmingly handle content blocks, which
-   both schemas share, so the split would duplicate most of the file.
+Named, not numbered, so that citing files say which one they mean:
+
+- **widen** -- one package, widened scope. Renderer goes to
+  `claude-code-archeology`, whose charter is rewritten to "Claude Code
+  record streams, live or archived". `claude-stream` shrinks to the
+  invocation core and its two commands, probably as members here too.
+- **leaf** -- renderer as its own package, depended on by both, same shape as
+  `claude-slug`. Cleanest dependency graph, one more package.
+- **split** -- cut the renderer along the schema boundary. Almost certainly
+  wrong: `format_*` functions overwhelmingly handle content blocks, which
+  both schemas share, so the split would duplicate most of the file.
 
 ## What would settle it
 
 Count how much of the 714 lines is schema-specific. `format_stream_event`
 and `format_result` look live-only; `format_snapshot` and `format_summary`
 look archive-only; the ~40 `format_*` attachment/content handlers look
-shared. If shared dominates -- the likely finding -- resolution 3 dies and
-the choice is 1 vs 2, which is then a taste call about package count
-rather than an architecture question.
+shared. If shared dominates -- the likely finding -- **split** dies and
+the choice is **widen** vs **leaf**, which is then a taste call about package
+count rather than an architecture question.
 
 Do this before absorbing any `claude-jsonl-*` member into
 `claude-code-archeology`, since the first absorption is what decides it.
