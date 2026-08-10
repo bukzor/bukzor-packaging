@@ -28,12 +28,16 @@ back catalogue at once. That is not hypothetical: it is why this kb exists.
 
 ## Smallest instance
 
-`claude-slug`, estimated in `packages.kb/claude-slug.md`: "a
+`claude-slug`, estimated in `../../packages.kb/claude-code-slug.md`: "a
 `pyproject.toml`, two entry points, a meta-package row, a README row, and
 the port itself -- call it an hour." Decomposed: *F* ≈ 15 min (the
 `pyproject.toml`, the meta-package `dependencies` row plus
 `[tool.uv.sources]`, the README row), *m* ≈ 20 min each for two tools that
 are 12 and 23 lines.
+
+It shipped the same day, and the estimate held **for the items listed** -- which
+is the narrow claim this file makes. What it missed is a third term neither *F*
+nor *m* covers, filed as `an-estimate-omits-the-cutover.md`.
 
 Compare the same package as a standalone repo: a PyPI name, a CI workflow,
 a README, a release process, a `.pre-commit-config.yaml` -- hours, and

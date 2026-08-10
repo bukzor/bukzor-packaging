@@ -91,17 +91,22 @@ expires when the arrangement improves.** Phrase it against the property.
 An importable function has exactly one resolution mechanism -- the dependency
 graph -- and it is declared, versioned, and checkable. That is the whole
 argument for `claude-slug` as a package rather than a helper, and it is why
-`packages.kb/claude-slug.md` insists on a Python port: bash offers no import,
-so a bash `claude-slug` would leave every mechanism in place and merely reduce
-the copy count.
+`../../packages.kb/claude-code-slug.md` insisted on a Python port: bash offers no
+import, so a bash `claude-slug` would leave every mechanism in place and merely
+reduce the copy count. Carried out 2026-08-10, and `claude-path`'s `exec` of its
+sibling is now an import.
 
-The symlink deserves its own sentence. It looks like a dependency and is not:
-it survives only because both ends live in one dotfiles repo, so packaging
-either end breaks it. Replacing it with a `dependencies` row is the *point*
-of the exercise, not a side effect.
+The symlink deserves its own sentence. It looked like a dependency and was not:
+it survived only because both ends lived in one dotfiles repo, so packaging
+either end would break it. It was retargeted at the installed console script
+during the cutover -- which is an improvement in provenance and *not* a
+`dependencies` row, so `git-localhost-store` still reaches the encoder by
+absolute path. The mechanism moved down the table; it did not leave it.
 
 ## What would kill it
 
-A single implementation with one resolution mechanism -- which is what the
-port delivers, so this claim is designed to become false. Until then, the
-check is the only thing standing between three implementations and a fourth.
+A single implementation reached by a declared dependency. The port halved the
+count and fixed provenance, so this claim is now defeated for `claude-path`'s
+callers and still true for the encoding as a whole -- which is the shape a claim
+takes on its way out, and the reason `--shadow` counts sites rather than
+asserting a state.

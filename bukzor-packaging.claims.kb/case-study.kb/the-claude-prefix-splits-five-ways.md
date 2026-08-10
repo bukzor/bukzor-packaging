@@ -15,26 +15,36 @@ Population: the sixteen `~/bin/claude-*` scripts, as indexed by
 *G* from textual references and *G*⁺ by adding artifact incidence.
 
 ```
-LATENT  claude-code-archeology: claude-uncolor share artifacts, not code
+SHIPPED claude-code-archeology: claude-jsonl-path, ... on PATH, not in ~/bin
+SHIPPED claude-code-slug: claude-slug, claude-path on PATH, not in ~/bin
 LATENT  claude-open-tasks: claude-open-tasks, claude-open-tasks-list ...
-SEAMED  claude-slug
 LATENT  claude-stream: claude-print-verbose, claude-s ...
 --      retire: claude-plan
 --      unsettled: claude-fork, claude-workspace-merge, claude-export,
                    claude-jsonl-summarize
 ```
 
-One seamed cluster, three latent, one cluster killed outright, one relic, four
-unsettled. **The prefix names no package**, which is the negative result the
-whole exercise was bought to establish.
+Two shipped, two latent, one cluster killed outright, one relic, four unsettled.
+**The prefix names no package**, which is the negative result the whole exercise
+was bought to establish -- and note that the two packages it does name were
+carved *out* of the prefix rather than found within it.
 
-## The one that is actually seamed
+The first run of this table, hours earlier, read `SEAMED claude-slug` and
+`LATENT claude-code-archeology`. Both rows moved by being acted on, not by being
+re-measured.
 
-`claude-slug` -- and it is the only verdict in the table resting on a real
-`exec` rather than on a comment mention. `claude-path` line 20 execs
-`claude-slug` by resolved-`$0` sibling path. Everything else called SEAMED
-anywhere in this kb would rest on weaker evidence, which is the discount
-`../seams.kb/`'s guide records about *G*.
+## The one that was actually seamed
+
+`claude-slug` was the only verdict in the table resting on a real `exec` rather
+than on a comment mention: `claude-path` line 20 exec'd it by resolved-`$0`
+sibling path. Everything else called SEAMED anywhere in this kb would rest on
+weaker evidence, which is the discount `../seams.kb/`'s guide records about *G*.
+
+**That edge is now an `import`.** The strongest edge the weak relation could see
+was the one that survived extraction into a declared dependency -- which is the
+outcome `../../packages.kb/claude-code-slug.md` was arguing for, and a small
+piece of evidence that *G*'s over-approximation is worst at the bottom of the
+scale rather than the top.
 
 ## The three latent seams, and what each predicted
 
