@@ -65,30 +65,39 @@ by hand. Nobody has priced it.
 
 ## Where the encoding lives, and where it came from
 
-`../coherence.py --shadow`, 2026-08-10 evening, **after both repairs described
-below** -- the encoder is now a package:
+`../coherence.py --shadow`, 2026-08-10 late, **after every repair described
+below** -- the encoder is a package, published, and depended on:
 
 ```
 claude-slug resolves to:  ~/.local/bin/claude-slug  (installed in bukzor-tools)
-claude-path resolves to:  ~/.local/bin/claude-path  (installed in bukzor-tools)
+git-localhost-store calls: ENCODED="$(claude-path "$WORK_DIR")"  (line 33)
+  resolved by:            PATH, unpinned
 
 sites implementing the encoding:
-  delegates  committed  ~/bin/claude-jsonl-cwd:5
-  delegates  committed  ~/bin/claude-jsonl-path:3
-  delegates  committed  ~/bin/claude-workspace-merge:106
-  current    committed  ~/repo/.../bukzor-agent-skills/bin/claude-slug:11
-  current    committed  ~/repo/.../bukzor-agent-skills--replication-run/...:11
-  LEGACY     committed  ~/repo/.../dotfiles/bin/claude-path:12
-  delegates  committed  .../claude-code-slug/lib/claude_code_slug/path.py:4
-  current    committed  .../claude-code-slug/lib/claude_code_slug/slug.py:15
+  delegates  ~/bin/claude-jsonl-cwd:5, claude-jsonl-path:3,
+             claude-workspace-merge:106
+  delegates  ~/repo/.../bukzor-agent-skills/bin/claude-slug:4     # PEP 723
+  current    ~/repo/.../bukzor-agent-skills--replication-run/...:11
+  LEGACY     ~/repo/.../dotfiles/bin/claude-path:12
+  delegates  .../claude_code_slug/path.py:4
+  current    .../claude_code_slug/slug.py:15
 
-2 files implement the encoding independently, and nothing
-declares which is authoritative -- PATH order decides.
+WARN  one tracked file, checkouts disagreeing: agent-skills:bin/claude-slug
+        -> ['current', 'delegates']; converges on a pull
+WARN  one clone has this file and another does not: dotfiles:bin/claude-path
+        ~ deleted it, so the clone still carrying it is behind
 ```
 
-Three `~/bin` scripts now *delegate* where two used to duplicate. The `LEGACY`
-row is a second checkout eight months stale on one tracked file; it will drop
-off on its next pull.
+**Exit 0**, for the first time. One implementation remains -- the package's own
+`slug.py` -- and the two rows that used to make it two are now correctly named as
+staleness: a checkout awaiting a push, and a clone that has not seen the
+deletion. Both converge on a pull; neither is a design defect. The distinction
+was invisible while the check counted files.
+
+Three `~/bin` scripts *delegate* where two used to duplicate, and the copy that
+looked unretirable retired: `bukzor-agent-skills` vendored `bin/claude-slug` so
+the repo could work standalone, and a PEP 723 header now gives it standalone
+operation *and* a declared dependency.
 
 ### The before-picture, and the repair
 
