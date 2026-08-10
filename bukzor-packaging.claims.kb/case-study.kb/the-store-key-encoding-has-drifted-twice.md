@@ -63,29 +63,32 @@ moved after relocation:
 This is the open item in the tool's own todo, filed 2026-08-10 after hitting it
 by hand. Nobody has priced it.
 
-## Where the encoding lives, and which copy is committed
+## Where the encoding lives, and where it came from
 
-`../coherence.py --shadow`, 2026-08-10 16:38, **after the repair described
-below**:
+`../coherence.py --shadow`, 2026-08-10 evening, **after both repairs described
+below** -- the encoder is now a package:
 
 ```
+claude-slug resolves to:  ~/.local/bin/claude-slug  (installed in bukzor-tools)
+claude-path resolves to:  ~/.local/bin/claude-path  (installed in bukzor-tools)
+
+sites implementing the encoding:
   delegates  committed  ~/bin/claude-jsonl-cwd:5
-  delegates  committed  ~/bin/claude-path:7
-  current    committed  ~/bin/claude-slug:11
-  current    committed  ~/bin/claude-workspace-merge:15
+  delegates  committed  ~/bin/claude-jsonl-path:3
+  delegates  committed  ~/bin/claude-workspace-merge:106
   current    committed  ~/repo/.../bukzor-agent-skills/bin/claude-slug:11
   current    committed  ~/repo/.../bukzor-agent-skills--replication-run/...:11
   LEGACY     committed  ~/repo/.../dotfiles/bin/claude-path:12
+  delegates  committed  .../claude-code-slug/lib/claude_code_slug/path.py:4
+  current    committed  .../claude-code-slug/lib/claude_code_slug/slug.py:15
 
-one tracked file, checkouts disagreeing:
-  dotfiles.git:bin/claude-path -> ['LEGACY', 'delegates']
-
-HEAD:bin/claude-path implements: delegates
-HEAD:bin/claude-slug implements: current
-
-3 tracked files implement the encoding independently, and
-nothing declares which is authoritative -- PATH order decides.
+2 files implement the encoding independently, and nothing
+declares which is authoritative -- PATH order decides.
 ```
+
+Three `~/bin` scripts now *delegate* where two used to duplicate. The `LEGACY`
+row is a second checkout eight months stale on one tracked file; it will drop
+off on its next pull.
 
 ### The before-picture, and the repair
 
@@ -104,14 +107,20 @@ rather than overwriting it is the point: the check found a live hazard in a
 system nobody thought was broken, and the interval between finding and fixing
 was under an hour.
 
-### What is still red, and why the package is still the fix
+### What the package retired, and what is still red
 
-**3 tracked files implement the encoding independently** -- `~/bin/claude-slug`,
+The before-picture counted **3 tracked implementations** -- `~/bin/claude-slug`,
 `bukzor-agent-skills/bin/claude-slug` (byte-identical, tracked since `e77440e`,
 2026-07-05, in a repo about agent skills rather than path tools), and
-`claude-workspace-merge:15`, which inlines the char class in bash. Nothing
-declares which is authoritative. That is what a package retires and a commit
-cannot.
+`claude-workspace-merge:15`, which inlined the char class in bash. Two are gone:
+dotfiles' pair was deleted (`922d325`) once `claude-code-slug` shipped, and
+`claude-workspace-merge` now calls `claude-path` (`b8559b5`). That is what a
+package retires and a commit cannot.
+
+The count stops at 2 rather than 1, and the survivor is not an oversight:
+`bukzor-agent-skills` vendors its copy on purpose, so four skill scripts can
+call it by relative path and the repo works standalone. Nobody working here can
+drive this to 1.
 
 ### Drift by staleness, which is not a copy
 
@@ -128,6 +137,8 @@ which gained a row for it.
 
 ## What would make this stale
 
-Migrating any of the 34 keys, or retiring one of the 3 implementations. Both are
-good outcomes and both change these numbers, which is what `verify:` is for.
-`--derived` exits nonzero on the 34; `--shadow` exits nonzero on the 3.
+Migrating any of the 34 keys, or retiring the last vendored implementation. Both
+are good outcomes and both change these numbers, which is what `verify:` is for.
+`--derived` exits nonzero on the 34; `--shadow` exits nonzero on the 2. The ship
+already invalidated one version of this section, which is the argument for
+keeping exhibits in files that say when they were measured.

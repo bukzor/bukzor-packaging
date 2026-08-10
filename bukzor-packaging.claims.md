@@ -4,8 +4,8 @@ last-updated: 2026-08-10
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Twenty-two claims
-in seven theories; the working notes stay in the collections above this file.
+The formal account of `README.md`'s four standing questions. Thirty-one claims
+in nine theories; the working notes stay in the collections above this file.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
 to know why the answers are shaped the way they are.
@@ -92,10 +92,11 @@ language-relative -- which is what decides a port versus a move.
 
 **Five -- what does duplication cost?** A fact with two implementations has no
 authoritative copy: which one a caller gets is a property of how the caller was
-invoked. Committing an untracked copy fixes *clone fidelity* and not
-*resolution* -- the two are independent, and only a declared dependency fixes
-the second. A derived key stored anywhere decays under two motions, and doing
-nothing about it silently selects "carry the staleness".
+invoked. A duplicated fact has **three independent properties** -- *clone
+fidelity* (fixed by committing), *provenance* (fixed by packaging), *resolution*
+(fixed only by retiring the rest) -- and a check written against one stops
+answering when another improves. A derived key stored anywhere decays under two
+motions, and doing nothing about it silently selects "carry the staleness".
 
 And one rule about the act of deciding: **building closes questions without
 deciding them**, so a guard is earned exactly when reversing the closure costs
@@ -119,16 +120,21 @@ The instance, with the measurements in `case-study.kb/`:
 - **A live hazard, found and fixed inside an hour.** The encoder that named
   those 53 directories was untracked, and the committed substitute implemented
   the *previous* encoding, so a fresh clone would have silently created empty
-  stores. Tracked 2026-08-10. Three independent implementations remain, which
-  is what the package retires and a commit cannot.
+  stores. Tracked 2026-08-10.
+- **One package shipped off this reasoning, same day.** `claude-code-slug`
+  (`../bukzor-tools`, `aa7535b`): 26 differential cases and all 53 live paths
+  agree with the bash it replaced, `--derived` byte-identical, no key moved.
+  Implementations went 3 → 2 and stop there, because the survivor is another
+  repo's deliberate vendoring. The estimate was accurate about the artifact and
+  omitted the cutover, which is now a claim (`cost.kb/`).
 
 ## The measurement, current
 
 ```
 $ bukzor-packaging.claims.kb/seams.py
-LATENT  claude-code-archeology: claude-uncolor share artifacts, not code
+SHIPPED claude-code-archeology: claude-jsonl-path, ... on PATH, not in ~/bin
+SHIPPED claude-code-slug: claude-slug, claude-path on PATH, not in ~/bin
 LATENT  claude-open-tasks: claude-open-tasks, claude-open-tasks-list ...
-SEAMED  claude-slug
 LATENT  claude-stream: claude-print-verbose, claude-s ...
 --      retire: claude-plan
 --      unsettled: claude-fork, claude-workspace-merge, claude-export,
@@ -146,16 +152,20 @@ key disagrees:                34
   neither encoding of it:      3  (workdir moved since)
 
 $ bukzor-packaging.claims.kb/coherence.py --shadow
-HEAD:bin/claude-path implements: delegates     # clone fidelity: passing
-HEAD:bin/claude-slug implements: current
-3 tracked files implement the encoding independently       # exit 1
+claude-slug resolves to: ~/.local/bin/claude-slug  (installed in bukzor-tools)
+git-localhost-store bypasses PATH via a symlink -> ~/.local/bin/claude-path
+2 files implement the encoding independently               # exit 1
 ```
 
-The second command is why `--cluster` exists. `claude-session-lifecycle` was
-rejected on that verdict and its members moved to `unsettled`, so the index no
-longer carries the cluster -- and a verdict that stops being reproducible when
-it is acted on is not evidence. Pass the members explicitly and the kill stays
-checkable.
+`--cluster` and `SHIPPED` exist for the same reason, in opposite directions: a
+verdict that stops being reproducible when it is acted on is not evidence.
+`claude-session-lifecycle` was killed on `NONE` and its members moved to
+`unsettled`, so the index no longer carries the cluster -- pass the members
+explicitly and the kill stays checkable. `claude-code-slug` was *built*, and its
+members left `~/bin`, which made the reference graph read `NONE`. **Both
+successes broke the check that recommended them.** The fix in both cases is to
+key the verdict on the recorded decision rather than on the current directory
+listing.
 
 `coherence.py` exits nonzero. That is the state of the world, not a broken
 check.

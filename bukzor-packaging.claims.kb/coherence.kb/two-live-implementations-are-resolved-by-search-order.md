@@ -42,26 +42,49 @@ at once if two clones sit at different commits, with no edit anywhere.
 
 ## Smallest instance
 
-Seven sites implement one path encoding here, three of them independently, plus
-one tracked file that classifies two different ways in two checkouts of the
-same repo. Exhibit, including the hazard this check found and the commits that
-repaired it within the hour:
+One path encoding, which over one day went from three independent
+implementations (one of them untracked, with the committed substitute
+implementing the *previous* encoding) to two, by way of a package. Exhibit:
 `../case-study.kb/the-store-key-encoding-has-drifted-twice.md`.
+
+The remaining copy is the interesting one, because it is not an oversight:
+`bukzor-agent-skills` vendors `bin/claude-slug` and four of its skill scripts
+call it by explicit relative path so the repo works standalone. That is a
+deliberate choice by a different repo, and it means this claim's population
+cannot be driven to one by anybody working here. **Search order stops deciding
+only when every caller declares a dependency, and a caller who wants to work
+standalone is refusing to.**
 
 The honest site deserves its own mention as a pattern: a Python module that
 documents the encoding *in prose* because it has no way to call a bash script it
 cannot depend on. Prose is a resolution mechanism too -- the reader is the
 resolver -- and it is the least reliable one available.
 
-## What a commit fixes and what it cannot
+## Three independent properties, discovered one at a time
 
-Committing an untracked implementation is worth doing and does not touch this
-claim. It repairs *clone fidelity* -- whether a fresh checkout reproduces the
-behaviour -- which is a different property from resolution. After the repair
-every copy is tracked, and the number of independent implementations is
-unchanged, so which one a caller gets is still decided by search order. The
-exhibit records both states an hour apart, which is the cleanest available
-demonstration that the two properties are independent.
+The same fact was fixed twice in one day, and each fix repaired a *different*
+property while leaving the others alone. They are worth naming separately
+because a check written for one silently stops answering when the situation
+moves:
+
+| property | question | fixed by |
+|---|---|---|
+| clone fidelity | does a fresh checkout reproduce the behaviour? | committing the file |
+| provenance | is the command a versioned artifact or a loose file? | packaging it |
+| resolution | which of *n* implementations does a caller get? | retiring the rest |
+
+Committing the untracked encoder fixed fidelity and changed neither of the
+others. Packaging it fixed provenance -- the command on `PATH` is now a console
+script beside a `pyvenv.cfg`, which is a declared, versioned dependency -- and
+*also* retired two of three implementations, which is progress on resolution
+but not completion: one vendored copy remains in another repo, so `PATH` order
+still decides.
+
+The instructive part is that the middle question did not exist until the second
+fix, and the first fix's check *died* of it: a predicate demanding that the
+dotfiles repo contain the encoder became permanently false the moment the
+encoder correctly left. **A check phrased against the current arrangement
+expires when the arrangement improves.** Phrase it against the property.
 
 ## Why packaging is the fix and not just a tidy-up
 
