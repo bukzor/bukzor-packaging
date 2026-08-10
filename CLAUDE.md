@@ -1,6 +1,7 @@
 --- # workaround: anthropics/claude-code#13003
 requires:
     - Skill(llm-kb)
+git-caution: personal
 ---
 
 # bukzor packaging kb
