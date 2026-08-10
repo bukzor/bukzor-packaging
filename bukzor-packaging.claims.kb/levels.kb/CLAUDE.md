@@ -1,10 +1,10 @@
 # levels.kb -- maintenance guide
 
-The stratification every other theory locates its claims on: what can be
-observed about a tool, at what price, and which questions that observation
-can and cannot decide.
+The root theory, and the stratification every other one locates its claims
+on: what can be observed about a tool, at what price, and which questions
+that observation can and cannot decide.
 
-- `prior:` none -- this is the root theory
+- `prior:` none
 - `ontology:` tool, observation, level, cheap/costly, abstraction map,
   factoring, decidable-in-the-abstract, triage, audience, upstream fact
 - `defeated by:` an audience predicate computable from file contents --

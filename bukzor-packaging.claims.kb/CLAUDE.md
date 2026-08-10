@@ -61,6 +61,6 @@ hand, formatted, type-checked, or reviewed as a diff; the checks here are
   broken script.
 - When a claim is overturned, edit the file. The `-` lines in the git diff are
   the strikethrough; do not delete the file and do not renumber anything.
-- Claims cite the kb above by relative path (`../packages.kb/...`). Those are
+- Claims cite the kb above by relative path, e.g. into `../packages.kb/`. Those are
   one-way: the kb should not depend on the ledger, so that it stays usable
   without it.
