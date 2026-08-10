@@ -23,9 +23,9 @@ file in `packages.kb/`.
 | `claude-s`               | 21  | `claude-stream`            | same flag family, opposite direction (stream-json *in*)                |
 | `claude-open-tasks`      | 198 | `claude-open-tasks`        | PEP-723 python, real algorithm, overlaps its sibling                   |
 | `claude-open-tasks-list` | 212 | `claude-open-tasks`        | worktree dedup by effective mtime -- testable knowledge, untested      |
-| `claude-fork`            | 42  | `claude-session-lifecycle` | speculative cluster; seam not yet argued                               |
-| `claude-workspace-merge` | 120 | `claude-session-lifecycle` | speculative; also carries an inlined copy of the slug encoding         |
-| `claude-export`          | 86  | `claude-session-lifecycle` | speculative; operates on `~/.claude/shell-snapshots`                   |
+| `claude-fork`            | 42  | unsettled                  | ex-`claude-session-lifecycle`, rejected; shares nothing with either sibling |
+| `claude-workspace-merge` | 120 | unsettled                  | likely `claude-slug`: carries an inlined copy of the encoding at line 15 |
+| `claude-export`          | 86  | unsettled                  | ex-cluster; `~/.claude/shell-snapshots` is a subsystem of its own      |
 | `claude-jsonl-summarize` | 63  | unsettled                  | not yet read closely                                                   |
 | `claude-plan`            | 1   | **retire** (settled)       | `--model=opusplan`; no such alias in current `claude --help`, and the file has no shebang |
 

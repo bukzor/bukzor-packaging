@@ -1,22 +1,47 @@
 ---
-status: speculative
+status: rejected
 home: bukzor-tools
 language: bash
 ---
 
 # claude-session-lifecycle
 
-**Speculative -- the seam has not been argued, only guessed.** Filed so the
-guess is visible and attackable, not so it gets built.
+**Rejected 2026-08-10 -- measured, not merely doubted.** Kept as the record
+of what was guessed and what killed it.
 
 Candidate members:
 
 - `~/bin/claude-fork` (42 lines) -- has a `usage()`, so it has modes
 - `~/bin/claude-workspace-merge` (120 lines) -- carries an inlined copy of
-  the slug encoding at line 12
+  the slug encoding at line 15
 - `~/bin/claude-export` (86 lines) -- operates on `~/.claude/shell-snapshots`
 
-## Why it's speculative
+## What killed it
+
+No two members share code, and no two share an artifact:
+
+| member | references | touches |
+| ------ | ---------- | ------- |
+| `claude-fork` | nothing in `~/bin/claude-*` | worktrees |
+| `claude-workspace-merge` | nothing in `~/bin/claude-*` | session JSONL, the slug encoding |
+| `claude-export` | nothing in `~/bin/claude-*` | `~/.claude/shell-snapshots` |
+
+Pairwise disjoint on both counts, so there is no refactor that turns this
+into a package -- the usual rescue ("extract the shared part") has nothing to
+extract. This is the first outcome listed under "plausible outcomes" below,
+now confirmed.
+
+Worse for the grouping: `claude-workspace-merge`'s two artifacts point *out*
+of the cluster, into `claude-slug` and `claude-code-archeology`. The tool is
+real; the cluster was a description of what the three touch, and that
+description was wrong.
+
+Members go to `unsettled` in `../dispositions.md` rather than to new homes --
+`claude-workspace-merge` most likely joins `claude-slug` once the encoding is
+one implementation, and the other two need reading before anyone signs
+"dotfiles".
+
+## Why it was speculative
 
 The three were grouped by "they manipulate sessions rather than read them",
 which is a description of what they touch, not a seam. Nothing yet shows
