@@ -36,6 +36,11 @@ separately, which is `two-implementations-are-one-node-only-after-merging.md`
 -- a drift bug waiting. The shared artifact tells you exactly which code to
 extract.
 
+Downstream this gets a witness rather than a hint: the shared artifact **is** an
+unnamed intermediate object, and naming its type is what discharges the verdict
+(`../composition.kb/an-extraction-names-an-intermediate-object.md`). If no type
+can be named, the seam was not latent -- it was absent.
+
 Why the promotion gate is *G* and not *G*⁺: *G*⁺ is far too loose to gate on.
 Any two tools that touch one file format share an artifact, so *G*⁺ would
 license `{claude-uncolor, claude-jsonl-summarize}` as a package on the
@@ -86,3 +91,7 @@ mean a real seam invisible to both relations. The likely shape is a shared
 exit-code convention or a lock file, with no schema in common. If one turns
 up, the incidence needs protocols as artifacts; the fix is to widen *I*, not
 to abandon the verdict scheme.
+
+That widening is available: in `../composition.kb/` an object is any format two
+tools must agree on, so a protocol is already one. What *I* would gain is a row,
+not a redefinition.

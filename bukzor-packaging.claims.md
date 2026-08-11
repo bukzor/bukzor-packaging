@@ -4,8 +4,8 @@ last-updated: 2026-08-10
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Thirty-one claims
-in nine theories; the working notes stay in the collections above this file.
+The formal account of `README.md`'s four standing questions. Forty claims in ten
+theories; the working notes stay in the collections above this file.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
 to know why the answers are shaped the way they are.
@@ -21,25 +21,25 @@ Priors point up; a theory may use its priors' vocabulary and no one else's.
                        /          \
                   seams            cost
             (is it a cluster)   (is it worth it)
-                 /    \          /    \    \
-                /      \        /      \    genesis
-        coherence      graduation       \  (should it exist
-    (two copies of     (does it leave     \     at all)
-     one fact)          dotfiles)          \      |
-                \            |             /      |
-                 \           |            /       |
-                  +------ closure --------+       |
-                   (what does building            |
-                    decide by accident)           |
-                            |                     |
-                        questions                 |
-                  (what we were asked,            |
-                   twice, and the residue)        |
-                            |                     |
-                            +---- case-study -----+
-                              (what happened when
-                               the rules met this
-                               pile of scripts)
+              /    |    \        /    |    \
+             /     |     \      /     |     genesis
+    composition  coherence  graduation     (should it exist
+   (how two       (two copies (does it      at all)
+    tools fit      of one      leave           |
+    together)      fact)       dotfiles)       |
+        |             \          |             |
+        |              +- closure +            |
+        |           (what does building        |
+        |            decide by accident)       |
+        |                   |                  |
+        +--------------- questions ------------+
+                  (what we were asked,
+                   twice, and the residue)
+                            |
+                        case-study
+                     (what happened when the
+                      rules met this pile of
+                      scripts)
 ```
 
 Rules point up. `case-study.kb/` sits under everything: it holds the
@@ -54,6 +54,7 @@ verdicts about sixteen particular scripts.
 | `seams` | a cluster is a package only if no member is isolated in the reference graph; a second, looser relation says which failures a refactor could fix | a package worth shipping whose members share no code, now or ever |
 | `cost` | *c*(*S*) = *F* + Σ*m*(*t*); the worth-testing set is a threshold, not a property | a per-package cost that does not fall when a workspace exists |
 | `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔; benefit is friction, error cost, or reuse | a tool worth building whose benefit is none of the three kinds |
+| `composition` | tools are the arrows and formats the objects; streaming is a monoid homomorphism; a boundary cost is a cut; a discipline pays iff it makes a predicate checkable | a typed view that decides nothing the reference graph already decided |
 | `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently | a duplicated fact that provably cannot diverge |
 | `graduation` | audience is necessary; knowledge or subcommands then suffice | a graduation that came out right while ignoring audience |
 | `closure` | building closes questions without deciding them; a guard must name a reversal cost | an accidental closure reversed as cheaply as it was made |
@@ -62,7 +63,7 @@ verdicts about sixteen particular scripts.
 
 ## The picture, on one page
 
-Five rules, in the order a tool meets them. None of them mentions a tool name.
+Six rules, in the order a tool meets them. None of them mentions a tool name.
 
 **One -- should it exist?** Build iff *b*/*c* > 1, and among competitors for one
 budget build in decreasing *b*/*c*. The quotient and the difference agree on the
@@ -98,9 +99,25 @@ fidelity* (fixed by committing), *provenance* (fixed by packaging), *resolution*
 answering when another improves. A derived key stored anywhere decays under two
 motions, and doing nothing about it silently selects "carry the staleness".
 
+**Six -- how do two tools fit together?** **Tools are the arrows, formats are the
+objects**; `|` composes and `cat` is the identity. An effectful tool is
+`unit → unit`, which is why a cluster of them can have no seam. A *latent* seam
+is a composite that factors through an object nothing names, so extracting is
+naming it. A filter streams when it is a **monoid homomorphism** on message
+sequences; everything else is a fold, and a pipeline's memory profile is set by
+its earliest fold. Composition loses information **only at the joints**, so
+`dec ∘ enc = id` per format buys correctness for every pipeline over it. And two
+costs that look like one: *F* is a fixed charge per package and pulls toward one
+package, while joint cost is a **cut** and pulls toward one process -- so cheap
+serialization buys small tools, not big packages.
+
 And one rule about the act of deciding: **building closes questions without
 deciding them**, so a guard is earned exactly when reversing the closure costs
 more than the action.
+
+One rule about adopting rules: **a house discipline earns its keep by what it
+makes checkable** -- name the predicate it moves from judgment to check, or do
+not adopt it.
 
 ## What those rules found here
 
@@ -121,6 +138,13 @@ The instance, with the measurements in `case-study.kb/`:
   those 53 directories was untracked, and the committed substitute implemented
   the *previous* encoding, so a fresh clone would have silently created empty
   stores. Tracked 2026-08-10.
+- **One arrow in twenty.** Typing the population by calling convention finds
+  exactly one filter, twelve tools that take a path per invocation, and six with
+  no signature at all. The house discipline the theory presumes -- a thin `main`
+  over a core named for the command -- currently holds **once**, with five more a
+  rename away. So the composition laws are design rules for tools not yet
+  written, and the gap between them and the tools that exist is priced: five
+  renames, three extractions.
 - **One package shipped off this reasoning, same day.** `claude-code-slug`
   (`../bukzor-tools`, `aa7535b`): 26 differential cases and all 53 live paths
   agree with the bash it replaced, `--derived` byte-identical, no key moved.
@@ -152,9 +176,14 @@ key disagrees:                34
   neither encoding of it:      3  (workdir moved since)
 
 $ bukzor-packaging.claims.kb/coherence.py --shadow
-claude-slug resolves to: ~/.local/bin/claude-slug  (installed in bukzor-tools)
-git-localhost-store bypasses PATH via a symlink -> ~/.local/bin/claude-path
-2 files implement the encoding independently               # exit 1
+claude-slug resolves to:   ~/.local/bin/claude-slug  (installed in bukzor-tools)
+git-localhost-store calls: ENCODED="$(claude-path "$WORK_DIR")"  (line 33)
+  resolved by:             PATH, unpinned
+1 live implementation; 2 WARN, both staleness that converges on a pull  # exit 0
+
+$ bukzor-packaging.claims.kb/composition.py --adapters
+20 tools: 6 EFFECT, 1 FILTER, 12 ITEM, 1 UNKNOWN
+1 names a core for the command; 5 name one a rename away    # exit 1
 ```
 
 `--cluster` and `SHIPPED` exist for the same reason, in opposite directions: a
@@ -167,8 +196,13 @@ successes broke the check that recommended them.** The fix in both cases is to
 key the verdict on the recorded decision rather than on the current directory
 listing.
 
-`coherence.py` exits nonzero. That is the state of the world, not a broken
-check.
+`--derived` and `composition.py` exit nonzero. That is the state of the world,
+not a broken check. `--shadow` reaching **exit 0** is the one that changed, and
+it changed by the encoder being packaged and its rivals retired -- not by the
+predicate being relaxed. What survives are two warnings about *staleness*: one
+checkout awaiting a push, one clone that has not seen a deletion. Both converge
+on a pull, and telling them apart from a second implementation is the whole
+content of `CHECKOUT`.
 
 ## Conjectures killed
 
@@ -180,17 +214,27 @@ instance, and its own defeater. These failed it.
   transition and nothing enforces an order, so there is no law to state.
   Naming it a chain-with-a-sink adds a word and no content.
 - **The tool graph as a category, packages as functors** -- the reach.
-  *Killed:* objects and arrows exist, but no composition law does any work and
-  nothing is preserved between two categories anybody needs. It named a shape
-  and proved nothing, which is exactly what the bar forbids.
+  *Killed as stated:* with tools as objects, composition is the free category on
+  the call graph, so "composes with" means "is reachable from", which `seams.py`
+  already reports. **The conjecture was not too ambitious, it was transposed.**
+  *Survived, both halves, in `composition.kb/`:* formats are the objects and
+  tools the arrows (`PIPE`), which makes the composition law a type equation and
+  explains `NONE`; a package is a star rather than a functor; and the functor
+  that does real work is the shell, which is **lax**, with all its laxity at the
+  serialization joints (`ROUNDTRIP`).
 - **A Galois connection between names and packages.** *Killed as a theory:*
   the abstraction map α has no adjoint worth exhibiting. *Survived reduced:*
   `PROXY` -- a predicate is decidable in the abstract iff it factors through
   α, which is the only content the conjecture had.
 - **Cost as a submodular set function, greedy clustering near-optimal.**
-  *Killed:* *m*(*t*) is not independent of *S* -- extracting a shared leaf
-  changes it -- so submodularity fails on the data. And with 16 items the
-  optimization is a table. *Survived reduced:* `SITE`'s two laws.
+  *Killed in the wrong objective:* *m*(*t*) is not independent of *S* --
+  extracting a shared leaf changes it -- so submodularity fails on the **build**
+  cost. *Survived, in the objective that has it:* `BOUNDARY` -- a crossing
+  arrow's joint cost depends on the pair and not on the partition, so the
+  boundary term is a **cut** and submodular by construction. The second
+  objection stands unrepaired: with 16 items the optimization is still a table,
+  so the structure buys the fixed-charge discontinuity rather than an algorithm.
+  *Survived reduced, as before:* `SITE`'s two laws.
 - **Graduation as three independent tests.** *Killed:* the kb asserted
   independence and sufficiency, then asserted AUDIENCE decides ties; both
   cannot hold. *Survived corrected:* `GRAD`, AUDIENCE necessary and the code
@@ -230,6 +274,11 @@ ran).
 - **`closure` is called an operator on two laws, not three.** Monotone and
   inflationary are exhibited; idempotence is not. The word is doing more work
   than the evidence supports, and this line is the discount.
+- **`composition`'s laws range over a population of one.** With a single FILTER
+  among twenty tools, `STREAM` and `ROUNDTRIP` describe a family that does not
+  exist yet. Filed anyway, because a calling convention is cheapest to fix before
+  it has callers -- but a law with one instance is a conjecture with good
+  manners, and this line is the discount.
 - **L2 versus L3 is a judgment.** Two readers could file the same claim in
   different theories. The filing rule in
   `bukzor-packaging.claims.kb/CLAUDE.md` is the tiebreak, not a proof.
@@ -243,6 +292,7 @@ grep -rl 'standing: open' */*.md                  # nobody has yet
 ./seams.py --edges --artifacts                    # the two relations
 ./coherence.py --derived                          # the exposed population
 ./seams.py --twins                                # the drifting pair
+./composition.py --adapters                       # who is an arrow, and who has a core
 ```
 
 Plus `bin/llm.claims-graph` from `Skill(llm-claims-kb)` -- it lints dangling

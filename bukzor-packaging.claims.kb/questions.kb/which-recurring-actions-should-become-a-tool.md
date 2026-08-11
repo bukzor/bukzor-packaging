@@ -3,6 +3,7 @@ label: QCOMPOSE
 standing: agent
 why:
     - ../seams.kb/a-cluster-is-legitimate-when-no-member-is-isolated.md
+    - ../composition.kb/an-extraction-names-an-intermediate-object.md
     - ../levels.kb/observation-comes-in-four-levels.md
     - ../genesis.kb/a-tool-is-worth-building-when-benefit-over-cost-exceeds-one.md
     - ../genesis.kb/friction-is-paid-per-invocation.md
@@ -55,6 +56,13 @@ a working directory. Frequency does the triage, internality does the deciding
 -- the same triage-versus-decide split as
 `../levels.kb/the-name-abstraction-may-narrow-but-never-decide.md`, one carrier
 over.
+
+**The extra condition has a name now.** "Outputs internal" says the subsequence
+composes to an arrow whose intermediate values nobody outside consumes, which is
+`../composition.kb/an-extraction-names-an-intermediate-object.md` stated over a
+log instead of over a file tree. So the discovery half of this question is one
+query -- *find the frequent subsequences whose intermediate objects are
+unnamed* -- and the deciding half was never carrier-specific at all.
 
 ## The log already exists, and so does the reader
 
