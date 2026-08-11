@@ -51,15 +51,15 @@ here, in three different theories:
 | build | `QUOTIENT`'s denominator, *c*(*a*) |
 | delay | `QUOTIENT`'s *Order* law -- ranking by density under one budget *is* displacement |
 | carry | `../cost.kb/cost-splits-into-site-and-item.md`'s *m*(*t*), paid for the whole wait |
-| repair | nothing |
+| repair | `a-predicted-cost-is-inflated-by-the-same-coefficient.md` -- it lives in the *denominator*, and only in its predicted part |
 
-**Repair is the gap, and it is a bias where this claim models a variance.** The
-coefficient shrinks the *magnitude* of a forecast benefit, which says "you
-probably will not need it". Fowler's middle case is the right feature built
-wrong: you do need it, and the artifact you built is not the artifact needed,
-because the requirement took its shape after you committed to one. A coefficient
-on the magnitude cannot express a mismatch in kind. The honest decomposition is
-two factors:
+**Repair was the gap, and finding it took two steps.** The first is that it is a
+bias where this claim models a variance. The coefficient shrinks the *magnitude*
+of a forecast benefit, which says "you probably will not need it". Fowler's middle
+case is the right feature built wrong: you do need it, and the artifact you built
+is not the artifact needed, because the requirement took its shape after you
+committed to one. A coefficient on the magnitude cannot express a mismatch in
+kind. The honest decomposition is two factors:
 
 > *b*<sub>predicted</sub> = P(needed) × P(what you build is what is needed |
 > needed) × Δ
@@ -67,6 +67,12 @@ two factors:
 and the **second factor decays with the forecast horizon** while a flat ⅓ does
 not. So ⅓ is about right for something wanted next week and far too generous for
 something wanted next year.
+
+The second step is that repair is not a shrunken benefit at all. It is work --
+rebuilding the thing you built wrong -- and work is a cost, incurred only on the
+branch where the forecast missed. So it belongs to *c*<sub>predicted</sub>, which
+this ledger left uncorrected while correcting *b*. `INFLATE` carries it, and the
+gate gets its missing half.
 
 One consequence runs the other way, and it is why this population is not simply
 a YAGNI violation. Fowler's carve-out is explicit: the principle "only applies

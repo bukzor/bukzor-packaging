@@ -7,8 +7,9 @@ ship it. This one asks why any of them should exist.
 
 - `prior:` `cost.kb`
 - `ontology:` action, recurrence, activation energy, friction, invocation,
-  observed use, predicted use, prediction discount, benefit kind, quotient,
-  ranking under a budget, incidence, re-derivation cost, paged out
+  observed use, predicted use, prediction discount, cost inflation, forecast
+  horizon, benefit kind, quotient, ranking under a budget, incidence,
+  re-derivation cost, paged out
 - `defeated by:` a tool that was clearly worth building whose benefit is none
   of the three kinds -- which would mean the decomposition is incomplete and
   every quotient here is computed against a benefit nobody can name
@@ -41,6 +42,11 @@ argument and finding it absent is not a verdict.
 - **Name the benefit kind before estimating.** An estimate that does not say
   which numerator it is estimating is a number with no units, and it is
   usually friction being assumed because friction is the easiest to picture.
+- **Say which parts of an estimate are recorded and which are forecast, on both
+  sides.** The two coefficients here point in opposite directions (`FORECAST`
+  shrinks a predicted benefit, `INFLATE` grows a predicted cost), so an estimate
+  that does not partition its terms cannot be corrected at all -- and the
+  uncorrected reading is always the permissive one.
 - Recurrence is countable and nobody counts it. Where a proxy exists -- shell
   history, the Bash calls in `~/.claude/projects/*/*.jsonl` -- say so in the
   claim, even when the count has not been taken.
