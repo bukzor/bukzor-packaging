@@ -13,7 +13,7 @@ file in `packages.kb/`.
 | tool                     | loc | disposition                | why                                                                    |
 | ------------------------ | --- | -------------------------- | ---------------------------------------------------------------------- |
 | `claude-slug`            | 12  | **`claude-code-slug`** (shipped) | ported to Python, deleted from `~/bin`; now a console script      |
-| `claude-path`            | 23  | **`claude-code-slug`** (shipped) | same package; GLS's symlink retargeted to the installed command   |
+| `claude-path`            | 23  | **`claude-code-slug`** (shipped) | same package; GLS imports `path_slug` rather than resolving a name |
 | `claude-jsonl-path`      | 3   | `claude-code-archeology`   | consumer, not a copy: `claude-path` + the projects-dir location        |
 | `claude-jsonl-cwd`       | 19  | `claude-code-archeology`   | already reimplemented as `session.Session.cwd()`, doctested            |
 | `claude-jsonl-display`   | 714 | `claude-code-archeology`   | duplicates `format_short`'s block walking; see the two-schemas seam    |
@@ -38,5 +38,5 @@ survivor of that reading is `claude-plan`, which is being retired instead.
 
 | tool                 | disposition                | why                                                            |
 | -------------------- | -------------------------- | -------------------------------------------------------------- |
-| `git-localhost-store` | `git-localhost-store`     | general git tool riding along in dotfiles; has its own ADRs    |
+| `git-localhost-store` | **`git-localhost-store`** (shipped) | general git tool that rode along in dotfiles; has its own ADRs |
 | `bukzor/work-stuff`   | gated                     | mixed authorship -- see `scope.md`                             |
