@@ -39,18 +39,28 @@ first one.
 
 ## Smallest instance
 
-`claude-code-slug 0.1.0`. The rehearsal was a `workflow_dispatch` run that
-builds any workspace member, **skips the upload**, and mints an OIDC token at
-`pypi.org/_/oidc/mint-token` -- which proves the trusted publisher is registered
-and the workflow's identity matches, the one thing that actually fails on a
-first release. It ran green before the tag existed.
+`git-localhost-store 0.1.0`, 2026-08-10. The tag was pushed with the
+publisher unregistered; the upload bounced with `400 Non-user identities
+cannot create new projects`. Registering the pending publisher and running
+`gh run rerun <id>` published it -- **same tag, same run, no version
+burned**. The attempt's reversal cost was not merely small, it was zero,
+measured.
 
-The instructive part is what it replaces. A TestPyPI dry run cannot test this:
-TestPyPI's publisher is a **separate registration on a separate index**, so a
-green TestPyPI upload says nothing about whether the real one will authenticate.
-The rehearsal that matters is on the real registry, stopping one step short of
-the irreversible one -- which is the general shape this claim recommends, not a
-detail about PyPI.
+The instructive part is what a rehearsal could *not* do here. The
+`workflow_dispatch` build that stops one step short and mints an OIDC token
+at `pypi.org/_/oidc/mint-token` ran **green** minutes before that bounce:
+the mint request carries only the token, no project name, so PyPI answers
+for the identity and one already-registered sibling is enough. See
+`../../mechanics.kb/the-first-upload-is-the-only-publisher-test.md`.
+
+That does not weaken the law -- it relocates the guard. Rehearse everything
+a rehearsal can actually decide, and accept that the publisher question for
+a *new* project is answered only by the attempt. Which is fine, because the
+attempt is free; the cost is entirely in the metadata you cannot re-upload.
+
+A TestPyPI dry run is no help either: its publisher is a **separate
+registration on a separate index**, so a green TestPyPI upload says nothing
+about whether the real one authenticates.
 
 ## What would kill it
 

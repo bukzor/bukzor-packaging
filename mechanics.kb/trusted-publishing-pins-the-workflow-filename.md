@@ -24,10 +24,14 @@ The distribution is *not* part of the grant: it rides in the tag
 workspace and each member needs its own publisher registration. The file names
 the registry; the tag names the package.
 
-## The rehearsal this enables
+## The rehearsal this enables, and its limit
 
 `workflow_dispatch` on the same file, building a chosen member and skipping the
-upload, mints a token at `pypi.org/_/oidc/mint-token`. That is the only way to
-prove the registration works before burning a version, because TestPyPI's
-publisher is a separate registration on a separate index. Filed as a claim in
+upload, mints a token at `pypi.org/_/oidc/mint-token`. It proves the *workflow*
+is a publisher -- worth having, since TestPyPI's publisher is a separate
+registration on a separate index and proves nothing about this one.
+
+It does not prove anything about the package being built: the mint request
+carries no project name, so a registered sibling greens it. See
+`the-first-upload-is-the-only-publisher-test.md`. Filed as a claim in
 `../bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`.
