@@ -20,9 +20,12 @@ lives there and only the action lives here.
       `REUSE` can carry a tool alone but nobody has claimed it for these.
       Measurement: `case-study.kb/the-unseamed-cluster-is-also-the-unused-one.md`.
 - [ ] Measure the `claude-path` port with `hyperfine`, against the retired
-      perl/bash pair. `git-localhost-store` invokes it once per hook firing in
-      ~50 repositories, so an interpreter start may have made every `git commit`
-      slower. Asserted negligible, never measured — see
+      perl/bash pair. The premise shrank on 2026-08-10: `git-localhost-store`
+      shipped as a package that imports `claude_code_slug` in-process, so it no
+      longer spends a subprocess per hook firing across ~50 repositories. What
+      is left to price is the standalone `claude-path`/`claude-slug` command,
+      and the relocator's own interpreter start on every `git commit`.
+      Asserted negligible, never measured — see
       `bukzor-packaging.claims.kb/composition.kb/a-process-boundary-is-a-serialization-boundary.md`
       and `cost.kb/an-estimate-omits-the-cutover.md`.
 - [ ] Make the thin-main discipline true: five renames and three extractions,
@@ -36,6 +39,3 @@ lives there and only the action lives here.
       `claude-jsonl-cwd`, `claude-jsonl-display`, `claude-jsonl-to-log` and
       `claude-uncolor` are planned members still sitting in `~/bin`, and `~/bin`
       is first on PATH.
-- [ ] Declare the encoder in `git-localhost-store` —
-      `refactors.kb/declare-the-encoder-in-git-localhost-store.md`, blocked on
-      packaging the consumer.
