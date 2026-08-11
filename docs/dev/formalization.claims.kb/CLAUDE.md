@@ -1,6 +1,6 @@
 # formalization.claims.kb -- how the ledger above was built
 
-Seven claims about *doing* a formalization, extracted from the one in
+Ten claims about *doing* a formalization, extracted from the one in
 `../../../bukzor-packaging.claims.md` because none of them is about packaging.
 They transfer; the ledger they came from does not.
 
@@ -8,18 +8,26 @@ They transfer; the ledger they came from does not.
   operations, laws, one smallest instance drawn from the data, and the
   observation that would kill it
 - `ontology:` instrument, population, corpus, over- and under-approximation,
-  soundness direction, exchange rate, elicitation, predicted versus measured
-  term, coverage, killed conjecture
+  soundness direction, monotone predicate, exchange rate, elicitation, decision
+  terms, predicted versus measured term, estimator, coverage, retrieval
+  occasion, carrier choice, killed conjecture
 - `defeated by:` a formalization that paid off while violating these -- most
   plausibly one where the theory was written first and the measurement only
   confirmed it, which would kill `INSTRUMENT` and weaken the rest
 
-Read `a-structure-earns-its-keep-by-the-decision-it-changes.md` first; the other
-six are its consequences.
+Read `a-structure-earns-its-keep-by-the-decision-it-changes.md` first. Five
+claims are its consequences; two are its unstated premises, filed after the fact
+because the bar it states cannot grade either of them -- `CARRIER` (the choice of
+objects, which no count refutes) and `RETRIEVAL` (whether the claim reaches the
+decision at all).
 
 ## Cheapest order of operations
 
-The order that produced the ledger above, with the mistakes taken out:
+The order that produced the ledger above, with the mistakes taken out.
+
+Before step 1, name the objects -- the census is a census *of* them, so the choice
+precedes everything here and no later step can check it (`CARRIER`). Spend real
+effort on it and expect it to be the expensive error.
 
 1. **Census the population before framing anything.** Twenty rows of "what is
    actually here" is worth more than any conjecture, and it is an hour.
@@ -42,6 +50,11 @@ The order that produced the ledger above, with the mistakes taken out:
   directory:** `bin/llm.claims-graph docs/dev`. Pointed at this `.kb/` it asserts
   on finding no theory subdirectories -- this collection *is* the single theory,
   and its parent is the ledger.
+
+- **A change to a check is a change to the theory.** `INSTRUMENT` makes the
+  instrument a co-author of the claims, which means editing a measure edits what
+  the law it certifies means. Commit the check with the claim it moves; "just
+  fixing the script" is a silent amendment.
 
 - **Every standing here is `agent` except where noted.** These are the agent's
   methodological calls and no one has ratified them; that is the honest state and

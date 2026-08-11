@@ -33,6 +33,21 @@ removing is mostly forecast. One coefficient, two gates, one direction:
 This is easy to miss because the two gates are usually written by different people
 in different documents, and each looks like an isolated preference for caution.
 
+## Whose optimism, though
+
+A bias correction is indexed to the **estimator**, and the law above does not say
+whose forecasts it corrects. The coefficient in the ledger this came from was
+calibrated on one person's predictions about their own tools. Most estimates in
+that ledger are now produced by an agent instead, and there is no reason its bias
+has the same magnitude -- the defensible prior is that it is larger, and
+specifically biased toward the value of building things. Applying a coefficient
+fitted to one estimator to the output of another is not a correction; it is a
+number carried across a change of subject.
+
+So an estimate must record who produced it. That also makes the question
+cheap to settle rather than argue: one candidate, two independent estimates, one
+per estimator, and the spread is the answer.
+
 ## Smallest instance
 
 A benefit model with a P(needed again) inside it, under an outer ⅔-off

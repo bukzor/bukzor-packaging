@@ -40,3 +40,20 @@ survivor of that reading is `claude-plan`, which is being retired instead.
 | -------------------- | -------------------------- | -------------------------------------------------------------- |
 | `git-localhost-store` | **`git-localhost-store`** (shipped) | general git tool that rode along in dotfiles; has its own ADRs |
 | `bukzor/work-stuff`   | gated                     | mixed authorship -- see `scope.md`                             |
+
+## Decision terms
+
+Every **bold** disposition above is a decision that weighed something against
+something. This records the two terms as estimated *at the time*: `for` is
+`QUOTIENT`'s numerator and `against` its denominator, whichever direction the
+action pointed. A verdict without its terms constrains no exchange rate, and the
+numbers are not recoverable afterwards -- see
+`docs/dev/formalization.claims.kb/record-the-terms-of-a-decision-not-only-its-verdict.md`.
+
+A `--` with a reason **is** a record: it says the term was never estimated, which
+makes the decision degenerate rather than undocumented. `retirement.py` fails
+while a bold row above has no row here.
+
+| decision | for | against | when |
+| --- | --- | --- | --- |
+| `claude-plan` retire | one line in a cold corner: the toll is a rounding error, and the argument was never about its size | zero -- `--model=opusplan` is not a flag value `claude` offers, so there is no benefit left to forfeit | 2026-08-10 |

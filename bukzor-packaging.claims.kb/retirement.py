@@ -33,8 +33,16 @@ of the real charge is a sweep that never names the file -- an `ls ~/bin`, a
 directory-wide grep, a tab completion. It is reported because TOLL claims the
 charge is per encounter, and this is the only encounter kind with a record.
 
-Exits nonzero while a tool has no attested invocation and no disposition, or
-while a tool dispositioned `retire` is still installed.
+Both terms are polluted by this study, and in the same direction. Formalizing
+twenty tools typed their names (inflating `named`) and edited their files
+(inflating `touch`), so the ratio's bias is *ambiguous* rather than conservative
+-- worse than a known direction. The repair is a temporal cut: count only events
+older than the study. It is not implemented, and this paragraph is the reason a
+reader should not take the columns as a rate.
+
+Exits nonzero while a tool has no attested invocation and no disposition, while
+a tool dispositioned `retire` is still installed, or while a settled decision in
+the index has no terms recorded beside it.
 """
 
 from __future__ import annotations
@@ -54,6 +62,8 @@ from seams import clusters
 LOGS = pathlib.Path.home() / ".claude" / "projects"
 HISTORY = pathlib.Path.home() / ".bash_history"
 BIN = pathlib.Path.home() / "bin"
+INDEX = pathlib.Path(__file__).resolve().parent.parent / "dispositions.md"
+TERMS = "## Decision terms"
 
 # Every point in a command line where a new command can start.
 BREAKS = re.compile(r"\$\(|[|;&\n()`]")
@@ -62,6 +72,9 @@ NAMED = re.compile(r"claude-[a-z][a-z0-9-]*")
 # A bare tool name and nothing else: the heredoc lines and prose that reach
 # command position otherwise arrive as `claude-path",` and `claude-slug's`.
 TOKEN = re.compile(r"^claude-[a-z][a-z0-9-]*$")
+# An index row: a backticked name in the first cell, then the rest of the line.
+ROW = re.compile(r"^\| `([\w./-]+)` *\|(.*)$", re.M)
+CELL = re.compile(r"^\| *([^|]+?) *\|", re.M)
 
 Event = tuple[str, str, str]
 
@@ -171,6 +184,20 @@ def uncalled(rows: Mapping[str, Tally], tools: Iterable[str]) -> list[str]:
     return [name for name in sorted(tools) if not rows.get(name, Tally()).called]
 
 
+def unpriced() -> tuple[list[str], int]:
+    """Settled decisions whose terms are not on record -- `TERMS`' obligation.
+
+    The index marks a decision as made by bolding its disposition, so `**` in the
+    rest of the row is the whole test. A decision is priced when the first cell of
+    some row under the terms heading names it; an explicit `--` counts, because
+    "never estimated" is a record and a degenerate decision is a finding.
+    """
+    head, _, terms = INDEX.read_text().partition(TERMS)
+    decided = sorted(name for name, rest in ROW.findall(head) if "**" in rest)
+    named = {word.strip("`") for cell in CELL.findall(terms) for word in cell.split()}
+    return [name for name in decided if name not in named], len(decided)
+
+
 def show_observed(rows: Mapping[str, Tally], tools: Iterable[str]) -> None:
     print(f"{'tool':<26}{'named':>7}{'shell':>7}{'called':>8}{'touch':>7}  last")
     for name in sorted(tools):
@@ -206,6 +233,11 @@ def check(observed: bool) -> int:
     stayed = sorted(name for name in retiring if (BIN / name).exists())
     print(f"\ndispositioned retire, still installed: {', '.join(stayed) or 'none'}")
 
+    silent, decided = unpriced()
+    print(f"\nsettled decisions with no recorded terms: {len(silent)} of {decided}")
+    for name in silent:
+        print(f"  {name}")
+
     undecided = [name for name in dead if name not in retiring]
     if undecided or stayed:
         print(
@@ -214,7 +246,7 @@ def check(observed: bool) -> int:
             "\ndeletion -- but an undecided row and an undone retirement are"
             "\nboth states RATCHET says the index should not hold for long."
         )
-    return 1 if undecided or stayed else 0
+    return 1 if undecided or stayed or silent else 0
 
 
 def main(argv: list[str]) -> int:

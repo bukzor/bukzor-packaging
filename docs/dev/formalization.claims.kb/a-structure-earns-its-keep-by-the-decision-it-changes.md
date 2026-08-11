@@ -5,6 +5,9 @@ authority: >-
     `Skill(formalize)`'s own framing -- "a structure earns its place by what it
     lets us keep"; the sharpening into two payoffs, and the population bar, are
     this claim's own
+why:
+    - choosing-the-carrier-is-the-unfalsifiable-step.md
+    - a-claim-pays-off-only-where-it-is-read.md
 ---
 
 # A Structure Earns Its Keep by the Decision It Changes
@@ -19,6 +22,17 @@ Both payoffs are real and they have different tells. Actionability shows up as a
 script; retention shows up as a claim nobody consults until the day someone has a
 good idea. A structure with neither is a renaming, and naming a category is worth
 nothing on its own.
+
+## Two premises, each of which can fail alone
+
+The law is stated as though the payoff were a property of the structure. It is
+not, quite. Retention is a property of the structure **and** of whether the claim
+reaches the person restructuring (`RETRIEVAL`); a claim that is right and unread
+scores zero on the bar and looks like it scored full marks. And the bar cannot
+grade the choice of objects at all (`CARRIER`): a structure over the wrong
+carrier passes both tests -- it moves a predicate to a check, and the check
+runs -- while measuring something nobody needed. **This claim grades the theory
+and neither of its two neighbours.**
 
 ## The population bar
 
