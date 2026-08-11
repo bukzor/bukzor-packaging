@@ -58,6 +58,14 @@ hand, formatted, type-checked, or reviewed as a diff; the checks here are
 `black`-clean and `pyright`-clean because they are files. A claim whose
 `verify:` grew past one line has a script waiting to be written.
 
+## Method
+
+`../docs/dev/formalization.claims.kb/` holds what building this ledger taught
+about building ledgers -- the population bar, why the check gets written before
+the claims are done, which direction of a heuristic's verdicts is sound, and how
+an exchange rate is elicited rather than measured. It is deliberately free of
+subject matter, so it is the cheaper thing to read first.
+
 ## Maintenance
 
 - After adding or renaming claims, run `bin/llm.claims-graph` from
