@@ -37,8 +37,10 @@ is a cost question rather than a design one. `claude-uncolor` is
 `uuid -> filesystem effect`, and its intermediate object -- a decolored `jsonl`
 stream -- is named: `uncolor-jsonl` is a **separate command**. Identical
 factorization, realized as two processes instead of two functions. Which
-realization is right is `an-estimate-omits-the-cutover.md`'s sibling question
-and is decided by `a-package-boundary-is-a-serialization-boundary.md`, not here.
+realization is right is decided by
+`a-process-boundary-is-a-serialization-boundary.md`, not here -- and the answer
+turns on the process boundary rather than the package one, which is a
+distinction that file had to draw before it could be stated.
 
 ## What it settles upstream
 

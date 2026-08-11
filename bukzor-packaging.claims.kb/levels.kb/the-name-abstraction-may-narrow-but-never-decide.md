@@ -20,6 +20,15 @@ So α licenses exactly one move: **ordering what to read**. It never licenses
 a conclusion about a non-factoring predicate. Triage by name, decide by
 contents.
 
+**Absent a naming discipline.** The claim is about names as *found*, which are
+descriptive and therefore evidence. A name given as a *contract* -- an `X-to-Y`
+convention enforced by a check -- makes the predicate factor by fiat, which is
+the entire point of adopting one. That is not a counterexample; it is a
+different regime, and it holds only as far as the check enforcing it. See
+`../composition.kb/a-house-discipline-earns-its-keep-by-what-it-makes-checkable.md`,
+which prices such a discipline by exactly this: which predicate it moves, and
+how far down.
+
 ## The instance that produced it
 
 2026-08-09, two calls made in one paragraph by reading filenames and
