@@ -23,7 +23,7 @@ Root files: `README.md` (synthesis + the standing questions), `scope.md`
 every tool in scope and where it currently lands).
 
 The formal account is `bukzor-packaging.claims.md` and its `.kb/`. How that
-account was built -- seven transferable claims about doing a formalization
+account was built -- ten transferable claims about doing a formalization
 cheaply, none of them about packaging -- is `docs/dev/formalization.claims.kb/`.
 **Read it before starting a formalization, not after.**
 

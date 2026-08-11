@@ -4,6 +4,20 @@ The kb records decisions; this records the work those decisions named but
 nobody has done. Every line here is priced in a claim file, so the argument
 lives there and only the action lives here.
 
+- [ ] Ratify or veto `INFLATE`
+      (`bukzor-packaging.claims.kb/genesis.kb/a-predicted-cost-is-inflated-by-the-same-coefficient.md`).
+      It changes the build gate — a purely speculative action goes from needing
+      3:1 to needing 9:1 — and it currently stands `agent`. The sign is defensible
+      from `FORECAST`'s own argument; the magnitude is symmetry, not evidence.
+- [ ] Record the terms of the three settled decisions that have none:
+      `claude-slug`, `claude-path`, `git-localhost-store`. `retirement.py` exits 1
+      until each has a row under `dispositions.md`'s **Decision terms**. `--` with
+      a reason is a valid answer and says the decision was degenerate.
+- [ ] Give `retirement.py` its temporal cut: count only events recorded before
+      2026-08-09, when the study opened. Both terms are currently inflated by the
+      analysis itself, so the ratio's bias is ambiguous rather than conservative
+      (`docs/dev/formalization.claims.kb/a-measure-whose-corpus-includes-its-analysis-is-unsound.md`).
+      ~20 lines.
 - [ ] Carry out `claude-plan`'s retirement. Dispositioned **retire (settled)**
       2026-08-10 and still installed in `~/bin`, which is the whole of
       `retirement.kb/the-forecast-discount-cuts-both-ways.md`'s evidence that the

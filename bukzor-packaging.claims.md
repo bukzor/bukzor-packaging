@@ -1,10 +1,10 @@
 ---
-last-updated: 2026-08-10
+last-updated: 2026-08-11
 ---
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Forty-five claims in
+The formal account of `README.md`'s four standing questions. Forty-seven claims in
 eleven theories; the working notes stay in the collections above this file.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
@@ -57,12 +57,12 @@ verdicts about sixteen particular scripts.
 | `levels` | four grades of observation -- name/shape, program, knowledge, audience -- ordered by definability | an audience predicate computable from file contents |
 | `seams` | a cluster is a package only if no member is isolated in the reference graph; a second, looser relation says which failures a refactor could fix | a package worth shipping whose members share no code, now or ever |
 | `cost` | *c*(*S*) = *F* + Σ*m*(*t*); the worth-testing set is a threshold, not a property | a per-package cost that does not fall when a workspace exists |
-| `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔; benefit is friction, error cost, or reuse | a tool worth building whose benefit is none of the three kinds |
+| `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔ and inflate predicted cost threefold; benefit is friction, error cost, or reuse | a tool worth building whose benefit is none of the three kinds |
 | `composition` | tools are the arrows and formats the objects; streaming is a monoid homomorphism; a boundary cost is a cut; a discipline pays iff it makes a predicate checkable | a typed view that decides nothing the reference graph already decided |
 | `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently | a duplicated fact that provably cannot diverge |
 | `graduation` | audience is necessary; knowledge or subcommands then suffice | a graduation that came out right while ignoring audience |
 | `closure` | building closes questions without deciding them; a guard must name a reversal cost | an accidental closure reversed as cheaply as it was made |
-| `retirement` | deleting is a candidate action priced by the same quotient; the toll is per encounter; a subsumed tool needs no estimate | a maintenance cost charged by the calendar rather than by encounter |
+| `retirement` | deleting is a candidate action priced by the same quotient; the toll is per encounter; a subsumed tool needs no estimate; the ledger's own claims are in the population | a maintenance cost charged by the calendar rather than by encounter |
 | `questions` | the four standing questions, each stated as experienced and as well-posed | a question whose two forms coincide |
 | `case-study` | the measurements: what the rules found in this particular pile of scripts, with the commands | nothing -- a record is not a conjecture; it can only stop being reproducible |
 
@@ -73,7 +73,9 @@ Seven rules, in the order a tool meets them. None of them mentions a tool name.
 **One -- should it exist?** Build iff *b*/*c* > 1, and among competitors for one
 budget build in decreasing *b*/*c*. The quotient and the difference agree on the
 gate and disagree on the *order*, which is why the quotient is the instrument.
-Predicted use is discounted by ⅔; ongoing use counts as observed. The numerator
+Predicted use is discounted by ⅔; ongoing use counts as observed. A predicted
+*cost* is inflated by the reciprocal -- one correction per term, both pointing the
+same way -- so an action justified entirely by forecast must clear 9:1. The numerator
 is one of three kinds, summed, any one sufficient: **friction** (recurrence ×
 per-invocation barrier), **error cost** (incidence × detection+repair+damage,
 which earns a check rather than a command), **reuse** (P(needed again) ×
@@ -129,7 +131,9 @@ should be a flag" argues subsumption by a tool nobody built, and deleting on it
 removes capability. And the ⅔ discount cuts both ways: it makes building harder
 *and* deleting easier, so distrusting forecasts is monotone pressure toward less
 code. Both gates rank on one list, which is what "subtract, don't accrete" means
-formally.
+formally. And the rules range over **their own text**: a claim is an artifact with
+a read cost and a marginal benefit, so the ledger prunes itself -- hardest at this
+file, which is the hottest namespace it has.
 
 And one rule about the act of deciding: **building closes questions without
 deciding them**, so a guard is earned exactly when reversing the closure costs
@@ -177,6 +181,15 @@ The instance, with the measurements in `case-study.kb/`:
   nothing scores zero, because studying twenty tools types their names twenty
   times. **An over-approximation is only sound until an analyst arrives.** The
   verdict falls back to the under-approximating measure and says so.
+- **The gate was correcting one term and not the other.** ⅔ came off predicted
+  benefit and nothing touched predicted cost, so the bar sat loosest for exactly
+  the actions with the least evidence. Corrected, a purely speculative build must
+  clear **9:1** -- and the correction is where YAGNI's fourth cost, *repair*, had
+  been going nowhere.
+- **Four decisions made, three with no terms on record.** The verdicts were
+  written down and the numbers behind them were not, so the exchange rate is
+  exactly as unconstrained as it was before any decision was taken. The
+  irrecoverable thing is the estimate, and it is only available at decision time.
 - **One retirement in twenty, and it is undone.** `claude-plan` was dispositioned
   `retire` -- one line, zero forfeited benefit, the easiest case there is -- and
   is still installed. The gate is not the bottleneck; the action is.
@@ -222,10 +235,12 @@ $ bukzor-packaging.claims.kb/composition.py --adapters
 
 $ bukzor-packaging.claims.kb/retirement.py
 population  20 tools on PATH; ~/bin holds 197
-attested    298 session logs + ~/.bash_history
+attested    299 session logs + ~/.bash_history
 no invocation attested: 1 of 20
-  claude-export             named   11x, never invoked  UNDECIDED
-dispositioned retire, still installed: claude-plan          # exit 1
+  claude-export             named   12x, never invoked  UNDECIDED
+dispositioned retire, still installed: claude-plan
+settled decisions with no recorded terms: 3 of 4
+  claude-path, claude-slug, git-localhost-store             # exit 1
 ```
 
 `--cluster` and `SHIPPED` exist for the same reason, in opposite directions: a
@@ -333,7 +348,15 @@ ran).
   *cb* is an invocation count; nothing here converts either into minutes, so the
   gate is a form awaiting units and is usable only where one term is *zero*. That
   is why `retirement.py` prints two columns instead of a ratio, and it is the
-  same discount `cost.kb` carries about estimates generally.
+  same discount `cost.kb` carries about estimates generally. The rate is
+  recoverable in principle from past decisions -- and three of the four made here
+  recorded no terms, so nothing can be recovered from them either. That is now a
+  failing check rather than a paragraph.
+- **Both terms of the retirement quotient are polluted by this study.** Two days
+  of formalizing typed the names (inflating the use count) *and* edited the files
+  (inflating the encounter count), so the bias is ambiguous rather than
+  conservative. The repair is a temporal cut -- count only events older than the
+  study -- and it is not implemented.
 - **L2 versus L3 is a judgment.** Two readers could file the same claim in
   different theories. The filing rule in
   `bukzor-packaging.claims.kb/CLAUDE.md` is the tiebreak, not a proof.
