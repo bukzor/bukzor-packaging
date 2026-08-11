@@ -156,7 +156,7 @@ The instance, with the measurements in `case-study.kb/`:
 
 ```
 $ bukzor-packaging.claims.kb/seams.py
-SHIPPED claude-code-archeology: claude-jsonl-path, ... on PATH, not in ~/bin
+PARTIAL claude-code-archeology: shipped, but claude-jsonl-path, ... still in ~/bin
 SHIPPED claude-code-slug: claude-slug, claude-path on PATH, not in ~/bin
 LATENT  claude-open-tasks: claude-open-tasks, claude-open-tasks-list ...
 LATENT  claude-stream: claude-print-verbose, claude-s ...
@@ -195,6 +195,14 @@ members left `~/bin`, which made the reference graph read `NONE`. **Both
 successes broke the check that recommended them.** The fix in both cases is to
 key the verdict on the recorded decision rather than on the current directory
 listing.
+
+`PARTIAL` is the correction to that fix. Keying on the record made the check
+*trust* the record, and the record said "shipped" while five of archeology's
+planned members were still sitting in `~/bin` -- so the verdict printed "not in
+`~/bin`" about five files that were in `~/bin`. **Key the verdict on the
+decision; measure the state anyway.** A check that reports a location it never
+probed is the same defect as the retracted symlink claim, arrived at from the
+opposite direction.
 
 `--derived` and `composition.py` exit nonzero. That is the state of the world,
 not a broken check. `--shadow` reaching **exit 0** is the one that changed, and
