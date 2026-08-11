@@ -39,6 +39,51 @@ the analysis -- a candidate with no observed use and no read code has a
 numerator that is all forecast, and ⅓ of an unmeasured guess does not clear
 anything.
 
+## What the coefficient stands in for
+
+The discount operationalizes YAGNI, and exactly one of its four mechanisms.
+Fowler's *Yagni* (martinfowler.com, 2015) prices a presumptive feature at cost of
+**build**, **delay**, **carry** and **repair**. Three of those already have homes
+here, in three different theories:
+
+| YAGNI cost | where it lives |
+|---|---|
+| build | `QUOTIENT`'s denominator, *c*(*a*) |
+| delay | `QUOTIENT`'s *Order* law -- ranking by density under one budget *is* displacement |
+| carry | `../cost.kb/cost-splits-into-site-and-item.md`'s *m*(*t*), paid for the whole wait |
+| repair | nothing |
+
+**Repair is the gap, and it is a bias where this claim models a variance.** The
+coefficient shrinks the *magnitude* of a forecast benefit, which says "you
+probably will not need it". Fowler's middle case is the right feature built
+wrong: you do need it, and the artifact you built is not the artifact needed,
+because the requirement took its shape after you committed to one. A coefficient
+on the magnitude cannot express a mismatch in kind. The honest decomposition is
+two factors:
+
+> *b*<sub>predicted</sub> = P(needed) × P(what you build is what is needed |
+> needed) × Δ
+
+and the **second factor decays with the forecast horizon** while a flat ⅓ does
+not. So ⅓ is about right for something wanted next week and far too generous for
+something wanted next year.
+
+One consequence runs the other way, and it is why this population is not simply
+a YAGNI violation. Fowler's carve-out is explicit: the principle "only applies
+when you introduce extra complexity now that you won't take advantage of until
+later", and not to work that makes the software easier to modify. A standalone
+command is nearly the minimum-complexity case -- `unit -> unit` to everything
+else, encountered only in an `ls` of a flat namespace, obscuring no code that
+serves a current requirement -- so its carry cost is a fraction of what the same
+speculation costs as an abstraction inside a program. **YAGNI binds far less
+tightly on a tool than on a feature**, which is a defensible basis for building
+many small ones rather than an excuse for it.
+
+Left unsettled: `REUSE` already carries a P(needed again), and this claim then
+takes ⅓ of it. Two corrections for one uncertainty, composed by nobody -- a
+`REUSE`-justified tool is discounted twice, and whether that is intended has
+never been said.
+
 ## Smallest instance
 
 `claude-plan`, one line, retired. Its entire benefit was predicted -- a
