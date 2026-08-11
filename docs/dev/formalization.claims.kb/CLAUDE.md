@@ -47,7 +47,7 @@ effort on it and expect it to be the expensive error.
 ## Maintenance
 
 - **The graph lint takes the ledger root, which is `docs/dev/`, not this
-  directory:** `bin/llm.claims-graph docs/dev`. Pointed at this `.kb/` it asserts
+  directory:** `bin/llm-claims-kb-graph docs/dev`. Pointed at this `.kb/` it asserts
   on finding no theory subdirectories -- this collection *is* the single theory,
   and its parent is the ledger.
 

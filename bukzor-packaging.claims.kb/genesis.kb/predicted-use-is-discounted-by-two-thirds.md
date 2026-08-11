@@ -85,10 +85,14 @@ speculation costs as an abstraction inside a program. **YAGNI binds far less
 tightly on a tool than on a feature**, which is a defensible basis for building
 many small ones rather than an excuse for it.
 
-Left unsettled: `REUSE` already carries a P(needed again), and this claim then
-takes ⅓ of it. Two corrections for one uncertainty, composed by nobody -- a
-`REUSE`-justified tool is discounted twice, and whether that is intended has
-never been said.
+`REUSE` already carries a P(needed again), and this claim then takes ⅓ of it,
+which looks like two corrections for one uncertainty. It is not, and the reason
+is `PESSIMISM`'s multiplicity law: a probability *inside* the model is part of the
+estimate, while the coefficient corrects the **estimator**. So a
+`REUSE`-justified tool is not discounted twice, and no statement of intent needs
+recovering. What is true is that the effective bar for the whole class of
+"justified by future need" is steeper than ⅓ suggests, and nobody had said that
+either.
 
 ## Smallest instance
 

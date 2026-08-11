@@ -68,9 +68,11 @@ subject matter, so it is the cheaper thing to read first.
 
 ## Maintenance
 
-- After adding or renaming claims, run `bin/llm.claims-graph` from
-  `Skill(llm-claims-kb)` against this directory. It lints dangling `why:`
-  targets, cycles, and claims that never joined the graph.
+- After adding or renaming claims, run the graph lint from `Skill(llm-claims-kb)`
+  against this directory -- `bin/llm-claims-kb-graph` as of 2026-08-11. It lints
+  dangling `why:` targets, cycles, and claims that never joined the graph. **The
+  binary's name is volatile**: it was `bin/llm.claims-graph` earlier the same day.
+  If it is missing, `ls` that skill's `bin/` rather than assuming the tool is gone.
 
 - Run every check before believing any number in here. They are cheap and two
   of them currently exit nonzero *on purpose* -- that is the finding, not a

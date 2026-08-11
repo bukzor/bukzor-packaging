@@ -169,27 +169,35 @@ The instance, with the measurements in `case-study.kb/`:
   rename away. So the composition laws are design rules for tools not yet
   written, and the gap between them and the tools that exist is priced: five
   renames, three extractions.
-- **Two instruments, three names.** Recurrence had been named as a proxy and never
-  counted; counted now, over 298 session logs and bukzor's shell history. The
-  three least-invoked tools are **exactly** the three members of the cluster
-  killed for having no seam -- two instruments sharing no input, returning the
-  same names. It licenses no deletion: a fork and a workspace merge are supposed
-  to be rare, so the real finding is that their benefit cannot be friction and
-  nobody has said which numerator they are on.
-- **The sound measure turned out vacuous.** Counting the name *anywhere* in a
-  command line over-approximates use, so a zero would be trustworthy -- and
-  nothing scores zero, because studying twenty tools types their names twenty
-  times. **An over-approximation is only sound until an analyst arrives.** The
-  verdict falls back to the under-approximating measure and says so.
+- **The census was mostly measuring itself, and it hid seven findings.** Recurrence
+  had been named as a proxy and never counted. Counted over the whole corpus it
+  reported **1 of 20** tools with no attested invocation, and a striking
+  coincidence: the three least-invoked were exactly the three members of the
+  cluster killed for having no seam. Cut the corpus at the day the study opened and
+  both results dissolve -- the honest figure is **8 of 20**, and two of that
+  "coincidental" three have attested invocations. The agreement was three tools
+  being *handled by an analyst*. An over-approximation is only sound until an
+  analyst arrives, and the repair is to stratify by a timestamp, which is the one
+  thing the analyst cannot influence.
+- **Auditing the last one deleted the evidence.** `claude-export` was the single
+  name the uncut census flagged; checking whether it still worked meant running it,
+  which took the count to zero of twenty. What the run bought was worth more than
+  the count: the tool works, it makes a shell variable survive between `Bash()`
+  calls, its audience is *agents*, and no `CLAUDE.md` mentions it. **Zero use was
+  zero discoverability.** A count cannot tell an absent benefit from an unreachable
+  audience, so the gate fired and the row closed the other way.
 - **The gate was correcting one term and not the other.** ⅔ came off predicted
   benefit and nothing touched predicted cost, so the bar sat loosest for exactly
   the actions with the least evidence. Corrected, a purely speculative build must
   clear **9:1** -- and the correction is where YAGNI's fourth cost, *repair*, had
   been going nowhere.
-- **Four decisions made, three with no terms on record.** The verdicts were
-  written down and the numbers behind them were not, so the exchange rate is
-  exactly as unconstrained as it was before any decision was taken. The
-  irrecoverable thing is the estimate, and it is only available at decision time.
+- **The terms were on file, in the wrong file.** Four decisions have been made and
+  the index recorded verdicts only; the estimates were sitting in `packages.kb/`
+  the whole time ("call it an hour", plus two steps nobody budgeted). Transcribed
+  into the index, where the rate could use them. But the recovered cost side has a
+  number and the benefit side has no unit at all, so the decisions are degenerate
+  anyway: **better filing does not produce a comparable benefit**, and that residue
+  is not a filing problem.
 - **One retirement in twenty, and it is undone.** `claude-plan` was dispositioned
   `retire` -- one line, zero forfeited benefit, the easiest case there is -- and
   is still installed. The gate is not the bottleneck; the action is.
@@ -235,12 +243,12 @@ $ bukzor-packaging.claims.kb/composition.py --adapters
 
 $ bukzor-packaging.claims.kb/retirement.py
 population  20 tools on PATH; ~/bin holds 197
-attested    299 session logs + ~/.bash_history
-no invocation attested: 1 of 20
-  claude-export             named   12x, never invoked  UNDECIDED
+attested    281 session logs, cut at 2026-08-09 + ~/.bash_history
+no invocation attested: 8 of 20
+  claude-export, claude-inventory, claude-jsonl-path, claude-jsonl-summarize,
+  claude-jsonl-to-log, claude-plan, claude-s, claude-search
 dispositioned retire, still installed: claude-plan
-settled decisions with no recorded terms: 3 of 4
-  claude-path, claude-slug, git-localhost-store             # exit 1
+settled decisions with no recorded terms: 0 of 4                # exit 1
 ```
 
 `--cluster` and `SHIPPED` exist for the same reason, in opposite directions: a
@@ -352,11 +360,16 @@ ran).
   recoverable in principle from past decisions -- and three of the four made here
   recorded no terms, so nothing can be recovered from them either. That is now a
   failing check rather than a paragraph.
-- **Both terms of the retirement quotient are polluted by this study.** Two days
-  of formalizing typed the names (inflating the use count) *and* edited the files
-  (inflating the encounter count), so the bias is ambiguous rather than
-  conservative. The repair is a temporal cut -- count only events older than the
-  study -- and it is not implemented.
+- **The use census sees nothing after 2026-08-09.** Both terms were polluted by
+  this study in the same direction, which made the bias ambiguous rather than
+  conservative, so agent log events from the day the census opened are now cut.
+  The price is exact: the pre-study numbers became durable and the present became
+  invisible. `~/.bash_history` is exempt because bash records no times.
+- **The population is a PATH scan, so it mixes candidates with package output.**
+  `claude-inventory` and `claude-search` are generated console scripts of a shipped
+  package; their zeros mean "a shipped command goes uncalled", which is a finding
+  about that package rather than a retirement candidate. Two of the twenty rows in
+  every table here are that kind.
 - **L2 versus L3 is a judgment.** Two readers could file the same claim in
   different theories. The filing rule in
   `bukzor-packaging.claims.kb/CLAUDE.md` is the tiebreak, not a proof.
@@ -374,5 +387,5 @@ grep -rl 'standing: open' */*.md                  # nobody has yet
 ./retirement.py --observed                        # what the logs attest about use
 ```
 
-Plus `bin/llm.claims-graph` from `Skill(llm-claims-kb)` -- it lints dangling
+Plus `bin/llm-claims-kb-graph` from `Skill(llm-claims-kb)` -- it lints dangling
 `why:` targets, cycles, and claims that never joined the graph.

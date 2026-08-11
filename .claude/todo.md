@@ -9,30 +9,23 @@ lives there and only the action lives here.
       It changes the build gate — a purely speculative action goes from needing
       3:1 to needing 9:1 — and it currently stands `agent`. The sign is defensible
       from `FORECAST`'s own argument; the magnitude is symmetry, not evidence.
-- [ ] Record the terms of the three settled decisions that have none:
-      `claude-slug`, `claude-path`, `git-localhost-store`. `retirement.py` exits 1
-      until each has a row under `dispositions.md`'s **Decision terms**. `--` with
-      a reason is a valid answer and says the decision was degenerate.
-- [ ] Give `retirement.py` its temporal cut: count only events recorded before
-      2026-08-09, when the study opened. Both terms are currently inflated by the
-      analysis itself, so the ratio's bias is ambiguous rather than conservative
-      (`docs/dev/formalization.claims.kb/a-measure-whose-corpus-includes-its-analysis-is-unsound.md`).
-      ~20 lines.
-- [ ] Carry out `claude-plan`'s retirement. Dispositioned **retire (settled)**
-      2026-08-10 and still installed in `~/bin`, which is the whole of
-      `retirement.kb/the-forecast-discount-cuts-both-ways.md`'s evidence that the
-      action is the bottleneck rather than the verdict. `retirement.py` exits 1
-      until it goes.
-- [ ] Fire the gate on `claude-export`: 86 lines, `unsettled`, and the only tool
-      of twenty with **no attested invocation** in 298 session logs or bukzor's
-      shell history. Either name a caller the logs cannot see — a hook, another
-      checkout — or delete it. Priced in
-      `retirement.kb/deletion-is-a-candidate-action-like-any-other.md`.
-- [ ] Name the benefit kind for `claude-fork`, `claude-workspace-merge` and
-      `claude-export`. Measured recurrence rules out friction for all three, and
-      they are the same three members of the cluster killed for having no seam;
-      `REUSE` can carry a tool alone but nobody has claimed it for these.
-      Measurement: `case-study.kb/the-unseamed-cluster-is-also-the-unused-one.md`.
+- [ ] Advertise `claude-export` where its audience will meet it: a line in
+      `~/.claude/CLAUDE.md` under the Bash conventions, since it is the only way to
+      make an environment variable survive between `Bash()` calls. Verified working
+      2026-08-11; never invoked before that by anyone, because nothing tells an
+      agent it exists. Then re-disposition it out of `unsettled`.
+- [ ] Rule on `claude-plan`, whose retirement is **reopened**: its recorded reason
+      ("no such alias in current `claude --help`") is false — `claude
+      --model=opusplan` is accepted and starts a session. What survives is zero
+      attested invocation. Still installed, so `retirement.py` exits 1 either way
+      until the row is settled and carried out.
+- [ ] Settle the five newly-visible unattested tools. The temporal cut took
+      "no invocation attested" from 1 of 20 to **8 of 20**; two are shipped-package
+      console scripts and one is `claude-export`, leaving `claude-jsonl-path`,
+      `claude-jsonl-summarize`, `claude-jsonl-to-log`, `claude-s` and `claude-plan`.
+      Four already have package homes decided on *seam* grounds — their zero use is
+      new information about whether those members should ship at all.
+      Measurement: `case-study.kb/the-unseamed-cluster-was-not-the-unused-one.md`.
 - [ ] Measure the `claude-path` port with `hyperfine`, against the retired
       perl/bash pair. The premise shrank on 2026-08-10: `git-localhost-store`
       shipped as a package that imports `claude_code_slug` in-process, so it no

@@ -65,14 +65,23 @@ this gate applyable without a review step.
 
 ## Smallest instance
 
-`claude-export`: 86 lines, `unsettled`, named eleven times in the record and
-**never once invoked** in 298 session logs or bukzor's shell history
-(`../case-study.kb/the-unseamed-cluster-is-also-the-unused-one.md`). Its
-denominator therefore has no observed component at all, so it is ⅓ of a forecast,
-against a numerator of 86 lines in the hot namespace. The gate says delete, and
-says it rebuttably: one named caller the logs cannot see -- a hook, another
-checkout -- restores the denominator and the row closes the other way. **That is
-what a gate is for; the point is that it has never been fired at this row.**
+`claude-export`: 86 lines, `unsettled`, never once invoked in 281 pre-study
+session logs or bukzor's shell history
+(`../case-study.kb/the-unseamed-cluster-was-not-the-unused-one.md`). Its
+denominator had no observed component at all, so it was ⅓ of a forecast against a
+numerator of 86 lines in the hot namespace, and the gate said **delete** --
+rebuttably, since one caller the logs cannot see restores the denominator.
+
+**The gate was fired on 2026-08-11 and the row closed the other way.** Not by a
+hidden caller: by reading the tool. It appends `export VAR=value` to the running
+session's shell snapshot, so a variable survives from one `Bash()` call into the
+next; it was run and it works. Its audience is *agents*, and nothing on this
+machine tells an agent it exists. A denominator can be zero because the benefit is
+absent or because the audience cannot find the tool, and **the count cannot tell
+those apart** -- which makes this instance more useful than the deletion would
+have been. The rebuttal is an argument about audience, so it comes from
+`../levels.kb/audience-is-not-in-the-files.md` and no bigger corpus would have
+produced it.
 
 ## What would kill it
 
