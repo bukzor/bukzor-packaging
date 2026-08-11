@@ -20,6 +20,9 @@ Verdicts per cluster, from the disposition index:
     SHIPPED  status: shipped in packages.kb/   -- members have left ~/bin on
                                                   purpose; the graph is silent
                                                   and PATH answers instead
+    PARTIAL  shipped, some members still in   -- the package exists and some
+             ~/bin                               planned members never moved;
+                                                  informative, not a defect
 
 The SHIPPED case is not a convenience. A package that ships *deletes its
 members from ~/bin*, so every relation here goes quiet and a graph verdict
@@ -27,6 +30,10 @@ computed over the absence reads NONE -- condemning the cluster for having
 succeeded. Shipping moves the question from "do these files reference each
 other" to "does the command exist and where does it come from", which is
 `coherence.py --shadow`'s provenance check, not this one's.
+
+Deleting the members is the *intent*, though, not a guarantee: five of
+`claude-code-archeology`'s planned members never moved. So the verdict measures
+`~/bin` instead of assuming it, which is what PARTIAL is for.
 
 Usage: seams.py [--edges] [--artifacts] [--isolated] [--index] [--twins]
        seams.py --cluster tool,tool,...
@@ -133,6 +140,27 @@ def isolated(members: list[str], edges: set[tuple[str, str]]) -> list[str]:
     return [m for m in members if m not in joined]
 
 
+def adjacent(src: dict[str, str]) -> list[str]:
+    """Edges between a candidate package and a tool no package claims.
+
+    An `unsettled` tool that references a member is not undecided -- it is a
+    *dependent*, and the index records neither membership nor dependency for it.
+    The reverse edge is worse: a member reaching out to a loose file is an
+    undeclared runtime dependency of the package, which is what shipping turns
+    into a broken install.
+    """
+    by_pkg = clusters()
+    member_of = {m: p for p, ms in by_pkg.items() if p not in NOT_A_PACKAGE for m in ms}
+    loose = {m for p, ms in by_pkg.items() if p in NOT_A_PACKAGE for m in ms}
+    found: list[str] = []
+    for a, b in sorted(realized(src)):
+        if a in loose and b in member_of:
+            found.append(f"WARN  {a} (unclaimed) references {b} -> {member_of[b]}")
+        elif a in member_of and b in loose:
+            found.append(f"WARN  {member_of[a]} member {a} references {b} (unclaimed)")
+    return found
+
+
 def check_index(src: dict[str, str]) -> int:
     """The disposition map is single-valued and covers exactly ~/bin/claude-*."""
     rows = re.findall(r"^\| `([\w.-]+)` *\|", INDEX.read_text(), re.M)
@@ -148,6 +176,11 @@ def check_index(src: dict[str, str]) -> int:
     print(f"duplicate rows:     {dup or 'none'}")
     print(f"unindexed:          {unindexed or 'none'}")
     print(f"indexed but absent: {absent or 'none'}")
+    # Adjacency is a finding about the *seams*, not about the index being out of
+    # sync, so it warns and does not decide the exit code -- same convention
+    # coherence.py uses for staleness.
+    for line in adjacent(src):
+        print(line)
     return 1 if dup or unindexed or absent else 0
 
 
@@ -186,12 +219,26 @@ def check_twins(src: dict[str, str]) -> int:
 
 
 def verdict(
-    pkg: str, members: list[str], G: Edges, Gplus: Edges, ship: set[str] = frozenset()
+    pkg: str,
+    members: list[str],
+    G: Edges,
+    Gplus: Edges,
+    ship: set[str] | frozenset[str] = frozenset(),
 ) -> str:
     if pkg in ship:
         gone = [m for m in members if not shutil.which(m)]
         if gone:
             return f"BROKEN  {pkg}: shipped, but {', '.join(gone)} is not on PATH"
+        # "Shipped" is a fact about the package, not about every planned member.
+        # This line used to assert `not in ~/bin` without looking, and was false
+        # for five of archeology's members -- a check may not claim what it has
+        # not measured.
+        stayed = [m for m in members if (BIN / m).exists()]
+        if stayed:
+            return (
+                f"PARTIAL {pkg}: shipped, but {', '.join(stayed)} still in ~/bin"
+                f" -- planned members that have not moved"
+            )
         return f"SHIPPED {pkg}: {', '.join(members)} on PATH, not in ~/bin"
     iso, iso_plus = isolated(members, G), isolated(members, Gplus)
     if len(members) == 1:
