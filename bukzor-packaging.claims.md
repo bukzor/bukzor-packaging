@@ -4,8 +4,8 @@ last-updated: 2026-08-10
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Forty claims in ten
-theories; the working notes stay in the collections above this file.
+The formal account of `README.md`'s four standing questions. Forty-five claims in
+eleven theories; the working notes stay in the collections above this file.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
 to know why the answers are shaped the way they are.
@@ -32,7 +32,11 @@ Priors point up; a theory may use its priors' vocabulary and no one else's.
         |           (what does building        |
         |            decide by accident)       |
         |                   |                  |
-        +--------------- questions ------------+
+        |               retirement ------------+
+        |            (when should a tool
+        |             stop existing)
+        |                   |
+        +--------------- questions
                   (what we were asked,
                    twice, and the residue)
                             |
@@ -58,12 +62,13 @@ verdicts about sixteen particular scripts.
 | `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently | a duplicated fact that provably cannot diverge |
 | `graduation` | audience is necessary; knowledge or subcommands then suffice | a graduation that came out right while ignoring audience |
 | `closure` | building closes questions without deciding them; a guard must name a reversal cost | an accidental closure reversed as cheaply as it was made |
+| `retirement` | deleting is a candidate action priced by the same quotient; the toll is per encounter; a subsumed tool needs no estimate | a maintenance cost charged by the calendar rather than by encounter |
 | `questions` | the four standing questions, each stated as experienced and as well-posed | a question whose two forms coincide |
 | `case-study` | the measurements: what the rules found in this particular pile of scripts, with the commands | nothing -- a record is not a conjecture; it can only stop being reproducible |
 
 ## The picture, on one page
 
-Six rules, in the order a tool meets them. None of them mentions a tool name.
+Seven rules, in the order a tool meets them. None of them mentions a tool name.
 
 **One -- should it exist?** Build iff *b*/*c* > 1, and among competitors for one
 budget build in decreasing *b*/*c*. The quotient and the difference agree on the
@@ -111,6 +116,21 @@ costs that look like one: *F* is a fixed charge per package and pulls toward one
 package, while joint cost is a **cut** and pulls toward one process -- so cheap
 serialization buys small tools, not big packages.
 
+**Seven -- when should a tool stop existing?** Deleting is a candidate action, so
+it is priced by the *same* quotient: delete iff *m*/*cb* > 1, numerator the
+maintenance toll avoided, denominator the benefit forfeited. Nothing new was
+needed -- rule One already ranged over actions and had only ever been pointed at
+constructive ones, which is why the rule set could grow the population and never
+shrink it. The toll is charged **per encounter**, not per unit time, so lines and
+sweeps multiply and cold code is nearly free; the two ways to cut it are delete
+and relocate. The benefit is **marginal**, so a tool subsumed by something that
+already exists has a denominator of zero and needs no estimate -- while "this
+should be a flag" argues subsumption by a tool nobody built, and deleting on it
+removes capability. And the ⅔ discount cuts both ways: it makes building harder
+*and* deleting easier, so distrusting forecasts is monotone pressure toward less
+code. Both gates rank on one list, which is what "subtract, don't accrete" means
+formally.
+
 And one rule about the act of deciding: **building closes questions without
 deciding them**, so a guard is earned exactly when reversing the closure costs
 more than the action.
@@ -145,6 +165,21 @@ The instance, with the measurements in `case-study.kb/`:
   rename away. So the composition laws are design rules for tools not yet
   written, and the gap between them and the tools that exist is priced: five
   renames, three extractions.
+- **Two instruments, three names.** Recurrence had been named as a proxy and never
+  counted; counted now, over 298 session logs and bukzor's shell history. The
+  three least-invoked tools are **exactly** the three members of the cluster
+  killed for having no seam -- two instruments sharing no input, returning the
+  same names. It licenses no deletion: a fork and a workspace merge are supposed
+  to be rare, so the real finding is that their benefit cannot be friction and
+  nobody has said which numerator they are on.
+- **The sound measure turned out vacuous.** Counting the name *anywhere* in a
+  command line over-approximates use, so a zero would be trustworthy -- and
+  nothing scores zero, because studying twenty tools types their names twenty
+  times. **An over-approximation is only sound until an analyst arrives.** The
+  verdict falls back to the under-approximating measure and says so.
+- **One retirement in twenty, and it is undone.** `claude-plan` was dispositioned
+  `retire` -- one line, zero forfeited benefit, the easiest case there is -- and
+  is still installed. The gate is not the bottleneck; the action is.
 - **One package shipped off this reasoning, same day.** `claude-code-slug`
   (`../bukzor-tools`, `aa7535b`): 26 differential cases and all 53 live paths
   agree with the bash it replaced, `--derived` byte-identical, no key moved.
@@ -184,6 +219,13 @@ git-localhost-store calls: ENCODED="$(claude-path "$WORK_DIR")"  (line 33)
 $ bukzor-packaging.claims.kb/composition.py --adapters
 20 tools: 6 EFFECT, 1 FILTER, 12 ITEM, 1 UNKNOWN
 1 names a core for the command; 5 name one a rename away    # exit 1
+
+$ bukzor-packaging.claims.kb/retirement.py
+population  20 tools on PATH; ~/bin holds 197
+attested    298 session logs + ~/.bash_history
+no invocation attested: 1 of 20
+  claude-export             named   11x, never invoked  UNDECIDED
+dispositioned retire, still installed: claude-plan          # exit 1
 ```
 
 `--cluster` and `SHIPPED` exist for the same reason, in opposite directions: a
@@ -287,6 +329,11 @@ ran).
   exist yet. Filed anyway, because a calling convention is cheapest to fix before
   it has callers -- but a law with one instance is a conjecture with good
   manners, and this line is the discount.
+- **`retirement`'s quotient has no exchange rate.** *m* is an encounter count and
+  *cb* is an invocation count; nothing here converts either into minutes, so the
+  gate is a form awaiting units and is usable only where one term is *zero*. That
+  is why `retirement.py` prints two columns instead of a ratio, and it is the
+  same discount `cost.kb` carries about estimates generally.
 - **L2 versus L3 is a judgment.** Two readers could file the same claim in
   different theories. The filing rule in
   `bukzor-packaging.claims.kb/CLAUDE.md` is the tiebreak, not a proof.
@@ -301,6 +348,7 @@ grep -rl 'standing: open' */*.md                  # nobody has yet
 ./coherence.py --derived                          # the exposed population
 ./seams.py --twins                                # the drifting pair
 ./composition.py --adapters                       # who is an arrow, and who has a core
+./retirement.py --observed                        # what the logs attest about use
 ```
 
 Plus `bin/llm.claims-graph` from `Skill(llm-claims-kb)` -- it lints dangling

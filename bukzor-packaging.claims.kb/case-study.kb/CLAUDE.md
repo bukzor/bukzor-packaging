@@ -5,7 +5,8 @@ states what happened when the rule met one particular pile of scripts on one
 particular machine, with the measurement that says so.
 
 - `prior:` every other theory -- `levels.kb`, `seams.kb`, `cost.kb`,
-  `genesis.kb`, `coherence.kb`, `graduation.kb`, `closure.kb`
+  `genesis.kb`, `composition.kb`, `coherence.kb`, `graduation.kb`,
+  `closure.kb`, `retirement.kb`, `questions.kb`
 - `ontology:` case, population, measurement, verdict, exhibit, date of
   measurement, the tool names themselves
 - `defeated by:` nothing -- a case study is a record, not a conjecture. What
