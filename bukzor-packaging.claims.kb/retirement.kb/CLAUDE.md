@@ -9,7 +9,7 @@ it.
 - `ontology:` maintenance toll, encounter (a scan or an amendment), namespace,
   discovery surface, hot and cold code, subsumption, dominance, marginal
   benefit, deletion as a candidate action, ratchet, attested use, disposition
-  slippage
+  slippage, read cost, self-application
 - `defeated by:` a maintenance cost charged by the calendar rather than by
   encounter -- a dependency somebody else upgrades, an audit that happens
   whether or not anyone reads the file. Cold code would then be expensive, and
@@ -55,6 +55,10 @@ the death.
   subsumed tool is zero at any invocation count, so the histogram and the
   reference graph answer different questions. Do not let `../retirement.py`'s
   table stand in for `SUBSUME`.
+- **The rules here range over this text too** (`SELFTOLL`). Before adding a
+  paragraph to a maintenance guide or to the entry point, name the decision it
+  changes -- those are the hot files and their toll is the highest in the ledger.
+  Adding a case study is nearly free; adding a line to the summary is not.
 - **Measure the state, not just the decision.** The index records verdicts and
   the filesystem records facts; `claude-plan` has been dispositioned `retire`
   and installed at the same time since 2026-08-10. This is the same failure
