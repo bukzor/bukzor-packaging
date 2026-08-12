@@ -74,9 +74,12 @@ subject matter, so it is the cheaper thing to read first.
   binary's name is volatile**: it was `bin/llm.claims-graph` earlier the same day.
   If it is missing, `ls` that skill's `bin/` rather than assuming the tool is gone.
 
-- Run every check before believing any number in here. They are cheap and two
-  of them currently exit nonzero *on purpose* -- that is the finding, not a
-  broken script.
+- Run every check before believing any number in here. They are cheap, and a
+  nonzero exit is the finding rather than a broken script: each exits 1 while the
+  state it audits is unresolved, so the count of red checks tracks the open
+  backlog and drops as `../.claude/todo.md` is worked. Three are red as of
+  2026-08-12 (`coherence`, `composition`, `retirement`); do not replace that with
+  a fixed number, which is what this line used to say and it went stale in a day.
 - When a claim is overturned, edit the file. The `-` lines in the git diff are
   the strikethrough; do not delete the file and do not renumber anything.
 - Claims cite the kb above by relative path, e.g. into `../packages.kb/`. Those are
