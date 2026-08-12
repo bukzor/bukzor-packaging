@@ -4,11 +4,6 @@ The kb records decisions; this records the work those decisions named but
 nobody has done. Every line here is priced in a claim file, so the argument
 lives there and only the action lives here.
 
-- [ ] Ratify or veto `INFLATE`
-      (`bukzor-packaging.claims.kb/genesis.kb/a-predicted-cost-is-inflated-by-the-same-coefficient.md`).
-      It changes the build gate — a purely speculative action goes from needing
-      3:1 to needing 9:1 — and it currently stands `agent`. The sign is defensible
-      from `FORECAST`'s own argument; the magnitude is symmetry, not evidence.
 - [ ] Advertise `claude-export` where its audience will meet it: a line in
       `~/.claude/CLAUDE.md` under the Bash conventions, since it is the only way to
       make an environment variable survive between `Bash()` calls. Verified working
@@ -46,3 +41,20 @@ lives there and only the action lives here.
       `claude-jsonl-cwd`, `claude-jsonl-display`, `claude-jsonl-to-log` and
       `claude-uncolor` are planned members still sitting in `~/bin`, and `~/bin`
       is first on PATH.
+
+## Later
+
+Uncommitted; surfaced by sweeps, never nagged. Three gaps the 2026-08-11
+formalization named and did not fill.
+
+- [ ] Say which of `levels.kb/`'s claims are sound in which direction. `MONOTONE`
+      says a soundness direction exists only for a predicate monotone in the
+      approximated quantity, and the level claims were written before that rule
+      existed, so none of them states one.
+- [ ] Give `levels.kb/audience-is-not-in-the-files.md` a mechanism. It says
+      the audience decides and does not say how one is reached — which is exactly
+      the hole `claude-export` fell into: right audience, no channel.
+- [ ] Measure `CHURN`: P(a claim still covers its subject) as a function of
+      interface churn, from `git log` on the tools' own files. It is the missing
+      term in every retention argument here, and it is a measurement, not a
+      judgment — so it is cheap and nobody has taken it.

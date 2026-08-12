@@ -1,6 +1,12 @@
 ---
 label: INFLATE
 standing: agent
+authority: >-
+    the agent's, entirely. Presented for ratification 2026-08-11 and declined --
+    "i think i don't care enough" -- so it stays `agent` and is in force by
+    default, not by a ruling. Do not re-present it; the sign follows from
+    `FORECAST`'s own argument and the magnitude wants a measurement, not another
+    request
 why:
     - predicted-use-is-discounted-by-two-thirds.md
     - a-tool-is-worth-building-when-benefit-over-cost-exceeds-one.md
