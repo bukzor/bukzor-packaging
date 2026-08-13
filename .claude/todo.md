@@ -4,6 +4,15 @@ The kb records decisions; this records the work those decisions named but
 nobody has done. Every line here is priced in a claim file, so the argument
 lives there and only the action lives here.
 
+- [ ] Apply the R4 benefit-unit ruling, once bukzor closes N (the gate's
+      payback bound; 26 ≈ one year proposed). Ruled 2026-08-13: benefit in
+      SWEh per 2 weeks (`benefit-2w`; optional ISO-8601 `horizon`
+      sub-attribute, default P2W), gate is payback `c/benefit-2w ≤ N` with c
+      from TERMS inflated per INFLATE, rank divides by c never timebox.
+      Application: TERMS/QUOTIENT declarations + a benefit column in
+      `dispositions.md`; plus `Skill(llm-subtask)`'s schema (shared skill,
+      bukzor approval). Full state: `requirements.md` R4 and
+      `~/.claude/sessions.kb/penguin.kb/bukzor-packaging-r4-ruling-and-reset-question.md`.
 - [ ] Advertise `claude-export` where its audience will meet it: a line in
       `~/.claude/CLAUDE.md` under the Bash conventions, since it is the only way to
       make an environment variable survive between `Bash()` calls. Verified working
