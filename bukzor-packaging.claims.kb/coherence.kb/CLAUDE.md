@@ -7,7 +7,7 @@ merely tidiness: the duplication is already producing wrong answers.
 - `prior:` `levels.kb`, `seams.kb`, `cost.kb`
 - `ontology:` derived key, deriving function, recompute, check, stale key,
   drift generation, live implementation, search order, shadowing,
-  silent divergence
+  silent divergence, declaration, packaging (as the mechanism that declares)
 - `defeated by:` a duplicated fact that provably cannot diverge -- one
   generated from the other at build time, or asserted equal by a test
 
