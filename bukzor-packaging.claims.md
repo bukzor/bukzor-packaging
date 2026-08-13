@@ -6,8 +6,10 @@ last-updated: 2026-08-13
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Fifty claims in
-eleven theories; the working notes stay in the collections above this file.
+The theory this repo exists to produce; `README.md`'s standing questions are
+its instance-facing form, and the working notes stay in the collections above
+this file. Coverage is graded against `requirements.md` -- what the job needs,
+before what the files contain.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
 to know why the answers are shaped the way they are.

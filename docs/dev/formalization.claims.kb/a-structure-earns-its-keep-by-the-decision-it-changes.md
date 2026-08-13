@@ -8,6 +8,7 @@ authority: >-
 why:
     - choosing-the-carrier-is-the-unfalsifiable-step.md
     - a-claim-pays-off-only-where-it-is-read.md
+    - state-the-job-before-distilling-the-corpus.md
 ---
 
 # A Structure Earns Its Keep by the Decision It Changes
@@ -23,7 +24,7 @@ script; retention shows up as a claim nobody consults until the day someone has 
 good idea. A structure with neither is a renaming, and naming a category is worth
 nothing on its own.
 
-## Two premises, each of which can fail alone
+## Three premises, each of which can fail alone
 
 The law is stated as though the payoff were a property of the structure. It is
 not, quite. Retention is a property of the structure **and** of whether the claim
@@ -31,8 +32,10 @@ reaches the person restructuring (`RETRIEVAL`); a claim that is right and unread
 scores zero on the bar and looks like it scored full marks. And the bar cannot
 grade the choice of objects at all (`CARRIER`): a structure over the wrong
 carrier passes both tests -- it moves a predicate to a check, and the check
-runs -- while measuring something nobody needed. **This claim grades the theory
-and neither of its two neighbours.**
+runs -- while measuring something nobody needed. And the bar cannot notice a decision
+no structure governs (`REMIT`): it grades what was filed, one structure at a
+time, so a missing term fails nowhere. **This claim grades the theory and none
+of its three neighbours.**
 
 ## The population bar
 

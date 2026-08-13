@@ -1,5 +1,5 @@
 ---
-last-updated: 2026-08-10
+last-updated: 2026-08-13
 ---
 
 # Packaging bukzor's ad-hoc tools
@@ -29,13 +29,11 @@ the first that was a graduation rather than a new build. `~/bin/claude-*`
 is the working front: 16 scripts, of which exactly 1 is a relic being
 retired, and the rest carry testable knowledge that is currently untested.
 
-Read `dispositions.md` first -- it is the index, and it answers "what
-about X?" without opening a collection.
-
-`bukzor-packaging.claims.md` is the formal account: which claims these
-decisions rest on, who signed each, and the checks that keep the numbers
-honest. The collections here don't depend on it -- read it when you want to
-argue with a conclusion rather than look one up.
+The theory is `bukzor-packaging.claims.md`: the claims the dispositions rest
+on, who signed each, and the checks that keep the numbers honest. It is
+graded against `requirements.md` -- what a theory doing this job must cover,
+and how far this one gets -- before any audit of its contents. For "what
+about X?", `dispositions.md` is the index.
 
 The live disagreement worth knowing about: whether
 `claude-code-archeology` is scoped to *transcripts on disk* or to *Claude

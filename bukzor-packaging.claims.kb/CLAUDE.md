@@ -6,9 +6,9 @@ depends:
 
 # bukzor-packaging claims -- maintenance guide
 
-The formal account of the kb one directory up: which claims the packaging
-decisions rest on, who signed each, and what would overturn it. The kb holds
-the working notes; this holds the load-bearing structure.
+The theory: which claims the packaging decisions rest on, who signed each,
+and what would overturn it. The kb one directory up holds the working notes;
+this holds the load-bearing structure.
 
 Entry point: `../bukzor-packaging.claims.md` -- the poset and the picture.
 
