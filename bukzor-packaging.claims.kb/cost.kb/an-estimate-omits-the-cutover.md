@@ -65,6 +65,10 @@ than of the package. Two consequences worth carrying:
   so it belongs in the numerator too. This claim is not "estimates are too
   low"; it is "one term is missing from both sides".
 
+The forward image of this claim is
+`a-dependent-converts-an-edit-into-a-migration.md`: replacing something
+adopted is *paying* a cutover; shipping something adoptable is *minting* them.
+
 ## What would kill it
 
 A greenfield population. Where nothing depends on the old arrangement -- a tool

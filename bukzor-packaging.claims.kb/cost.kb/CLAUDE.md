@@ -7,7 +7,7 @@ reader can attack the estimate rather than the conclusion.
 - `prior:` `levels.kb`
 - `ontology:` fixed site cost, marginal item cost, marginal benefit,
   threshold, worth-testing set, drift rate, silent failure, amortization,
-  language relativity, estimate
+  language relativity, estimate, dependent, interface change rate, migration
 - `defeated by:` a per-package cost that does not fall when a workspace
   already exists -- if standing up package *n*+1 costs what package 1 cost,
   the site/item split is fiction and clustering is a taste question
