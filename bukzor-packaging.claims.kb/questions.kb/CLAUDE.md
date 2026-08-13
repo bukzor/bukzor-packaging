@@ -5,8 +5,11 @@ experienced and as well-posed -- because the gap between the two is the most
 transferable thing here: it is what a later reader needs in order to *ask*
 better, not merely to look up an answer.
 
-- `prior:` `levels.kb`, `seams.kb`, `cost.kb`, `coherence.kb`,
-  `graduation.kb`, `closure.kb`
+- `prior:` every theory -- `levels.kb`, `seams.kb`, `cost.kb`, `genesis.kb`,
+  `composition.kb`, `coherence.kb`, `graduation.kb`, `closure.kb`,
+  `retirement.kb`. The questions sit under the whole poset, which is what the
+  entry point draws; this list used to omit three theories the claims here
+  already cite.
 - `ontology:` question as experienced, question well-posed, reframing,
   settling claims, residue, unaddressed question
 - `defeated by:` a question whose experienced and posed forms coincide --

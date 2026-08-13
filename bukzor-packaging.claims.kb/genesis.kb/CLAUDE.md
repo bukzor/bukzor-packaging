@@ -9,7 +9,7 @@ ship it. This one asks why any of them should exist.
 - `ontology:` action, recurrence, activation energy, friction, invocation,
   observed use, predicted use, prediction discount, cost inflation, forecast
   horizon, benefit kind, quotient, ranking under a budget, incidence,
-  re-derivation cost, paged out
+  re-derivation cost, paged out, candidate set, rival action
 - `defeated by:` a tool that was clearly worth building whose benefit is none
   of the three kinds -- which would mean the decomposition is incomplete and
   every quotient here is computed against a benefit nobody can name
@@ -31,6 +31,9 @@ argument and finding it absent is not a verdict.
 
 ## What does NOT belong here
 
+- Two copies of one fact -> `../coherence.kb/`. Sibling, not prior: an
+  `ERRORCOST` exhibit may be a coherence check, but a law here must need no
+  coherence vocabulary.
 - Whether several tools that already exist form a package -> `../seams.kb/`.
 - What the site costs -> `../cost.kb/`. This theory consumes the denominator
   and does not compute it.

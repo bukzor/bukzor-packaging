@@ -6,7 +6,6 @@ authority: >-
     of frequently encountered errors"
 why:
     - friction-is-paid-per-invocation.md
-    - ../coherence.kb/a-derived-key-must-be-recomputed-or-checked.md
 ---
 
 # A Recurring Error Earns a Check, Not a Command
@@ -39,6 +38,11 @@ that finds nothing and quietly creates an empty one, which the session note
 calls "the system's whole purpose failing quietly". Detection was infinite
 before the check and is now one command. The repair and damage terms are
 untouched, and the claim is honest about that: what was bought is detection.
+
+The exhibit lives in a sibling theory -- `coherence.kb` is not among genesis's
+priors, so it is cited as evidence, never as premise; the law above needs no
+coherence vocabulary. (This `why:` used to carry the cross-branch arrow, which
+violated the poset.)
 
 ## Why the damage term is the one to argue about
 
