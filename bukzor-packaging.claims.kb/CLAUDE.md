@@ -80,6 +80,11 @@ subject matter, so it is the cheaper thing to read first.
   backlog and drops as `../.claude/todo.md` is worked. Three are red as of
   2026-08-12 (`coherence`, `composition`, `retirement`); do not replace that with
   a fixed number, which is what this line used to say and it went stale in a day.
+- **Close the loop on every completed action.** When a settled disposition is
+  carried out, append its realized terms beside the forecast in
+  `../dispositions.md`'s decision table, and cite the realized/forecast ratio
+  from `genesis.kb`'s coefficient claims (`INFLATE`, "Observed so far"). A
+  coefficient no outcome has ever touched is still a prior, and should say so.
 - When a claim is overturned, edit the file. The `-` lines in the git diff are
   the strikethrough; do not delete the file and do not renumber anything.
 - Claims cite the kb above by relative path, e.g. into `../packages.kb/`. Those are

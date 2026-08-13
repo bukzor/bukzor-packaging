@@ -1,10 +1,12 @@
 ---
-last-updated: 2026-08-11
+label: LEDGER
+standing: agent
+last-updated: 2026-08-13
 ---
 
 # bukzor-packaging -- claim ledger
 
-The formal account of `README.md`'s four standing questions. Forty-seven claims in
+The formal account of `README.md`'s four standing questions. Fifty claims in
 eleven theories; the working notes stay in the collections above this file.
 
 Read `questions.kb/` first if you want answers, `levels.kb/` first if you want
@@ -56,10 +58,10 @@ verdicts about sixteen particular scripts.
 |---|---|---|
 | `levels` | four grades of observation -- name/shape, program, knowledge, audience -- ordered by definability | an audience predicate computable from file contents |
 | `seams` | a cluster is a package only if no member is isolated in the reference graph; a second, looser relation says which failures a refactor could fix | a package worth shipping whose members share no code, now or ever |
-| `cost` | *c*(*S*) = *F* + Σ*m*(*t*); the worth-testing set is a threshold, not a property | a per-package cost that does not fall when a workspace exists |
-| `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔ and inflate predicted cost threefold; benefit is friction, error cost, or reuse | a tool worth building whose benefit is none of the three kinds |
+| `cost` | *c*(*S*) = *F* + Σ*m*(*t*); the worth-testing set is a threshold, not a property; a dependent converts an edit into a migration | a per-package cost that does not fall when a workspace exists |
+| `genesis` | build iff *b*/*c* > 1, rank by *b*/*c*, discount predicted use by ⅔ and inflate predicted cost threefold; benefit is friction, error cost, or reuse; the quotient ranks only named candidates | a tool worth building whose benefit is none of the three kinds |
 | `composition` | tools are the arrows and formats the objects; streaming is a monoid homomorphism; a boundary cost is a cut; a discipline pays iff it makes a predicate checkable | a typed view that decides nothing the reference graph already decided |
-| `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently | a duplicated fact that provably cannot diverge |
+| `coherence` | a derived key must be recomputed or checked; duplicated facts are resolved by search order, silently; packaging replaces location with declaration | a duplicated fact that provably cannot diverge |
 | `graduation` | audience is necessary; knowledge or subcommands then suffice | a graduation that came out right while ignoring audience |
 | `closure` | building closes questions without deciding them; a guard must name a reversal cost | an accidental closure reversed as cheaply as it was made |
 | `retirement` | deleting is a candidate action priced by the same quotient; the toll is per encounter; a subsumed tool needs no estimate; the ledger's own claims are in the population | a maintenance cost charged by the calendar rather than by encounter |
@@ -68,7 +70,18 @@ verdicts about sixteen particular scripts.
 
 ## The picture, on one page
 
-Seven rules, in the order a tool meets them. None of them mentions a tool name.
+One operation and seven rules, in the order a tool meets them. None mentions a
+tool name.
+
+**Zero -- what does packaging do?** To package is to **replace location with
+declaration**: a loose file at a path becomes a versioned artifact,
+first-match-on-PATH becomes a dependency a resolver honors, and deletion gains
+a reach no `git rm` has -- an uninstall per environment instead of a pull per
+clone. That is the operation every rule below gates. And its forward price:
+**shipping to an audience mints future cutovers.** Once dependents exist, an
+interface edit is a migration billed at the adoption count -- a recurring term
+*F* + Σ*m* cannot see, growing with exactly the factor graduation selects for.
+Here it is ≈ 0; see the domain of validity.
 
 **One -- should it exist?** Build iff *b*/*c* > 1, and among competitors for one
 budget build in decreasing *b*/*c*. The quotient and the difference agree on the
@@ -80,6 +93,10 @@ is one of three kinds, summed, any one sufficient: **friction** (recurrence ×
 per-invocation barrier), **error cost** (incidence × detection+repair+damage,
 which earns a check rather than a command), **reuse** (P(needed again) ×
 re-derivation minus recall, which is what justifies a tool used twice a year).
+And the quotient ranks only **named** candidates: the rivals that route around
+building -- upstream it, buy it, wait, write it down -- produce no artifact for
+a disposition row to point at, so a verdict with no named rival is a race with
+one runner.
 
 **Two -- do several tools form a package?** Only if no member is isolated in the
 reference graph *G*. Adding artifact-incidence edges gives *G*⁺ and three
@@ -105,14 +122,17 @@ fidelity* (fixed by committing), *provenance* (fixed by packaging), *resolution*
 (fixed only by retiring the rest) -- and a check written against one stops
 answering when another improves. A derived key stored anywhere decays under two
 motions, and doing nothing about it silently selects "carry the staleness".
+The repair has a name -- rule Zero: packaging is the one mechanism that moves
+provenance, resolution, and deletion at once.
 
 **Six -- how do two tools fit together?** **Tools are the arrows, formats are the
 objects**; `|` composes and `cat` is the identity. An effectful tool is
 `unit → unit`, which is why a cluster of them can have no seam. A *latent* seam
 is a composite that factors through an object nothing names, so extracting is
 naming it. A filter streams when it is a **monoid homomorphism** on message
-sequences; everything else is a fold, and a pipeline's memory profile is set by
-its earliest fold. Composition loses information **only at the joints**, so
+sequences; everything else is a fold, and a pipeline's latency is set by its
+earliest fold -- its memory by the earliest unbounded-state stage, which dedup
+proves is a different thing. Composition loses information **only at the joints**, so
 `dec ∘ enc = id` per format buys correctness for every pipeline over it. And two
 costs that look like one: *F* is a fixed charge per package and pulls toward one
 package, while joint cost is a **cut** and pulls toward one process -- so cheap
@@ -321,6 +341,21 @@ incidence** (`LATENT`, which found three refactors and killed one cluster) and
 **the derived-key invariant** (`DERIVED`, whose check separated 31 decided
 mismatches from 3 undecided ones -- a distinction no one could draw before it
 ran).
+
+## Domain of validity
+
+The laws are stated generally and validated narrowly. This is the population
+the numbers come from; outside it, re-derive before reusing them:
+
+- **one author** -- no coordination or review cost appears in any term;
+- **git-tracked** -- `PRUNE`'s aggression is safe only at near-zero reversal
+  cost;
+- **dependency-free scripts** -- `TOLL` charges per encounter because nothing
+  here charges by the calendar;
+- **a uv/hatchling Python site** -- `AMORTIZE`'s discount is language-relative
+  and measured only there;
+- **zero external dependents** -- `CONTRACT`'s recurring term is ≈ 0, so every
+  verdict here is untested exactly where that term dominates.
 
 ## Compartmentalized away
 

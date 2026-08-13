@@ -66,6 +66,17 @@ is a conjecture with good manners -- but it is an instance of the right *kind*.
 The estimate was not wrong about a number it had; it was missing a category, and
 a coefficient is what you use when you cannot enumerate what you are missing.
 
+## Observed so far
+
+One scored forecast exists, and it is the ledger's first: `claude-code-slug`,
+cost forecast "call it an hour", realized about an hour **plus two unbudgeted
+steps** (`../../dispositions.md`, decision terms). Realized over forecast is
+roughly 1.2-1.5 depending on how the steps are priced -- against a coefficient
+of 3, from a sample of one, biased easy: the port was predicted "mechanical"
+and was. The datum moves nothing yet. It starts the record this file's defeater
+asks for, and the maintenance loop now feeds it: every completed action appends
+its realized terms to the decision table, and this section cites them.
+
 ## What would kill it
 
 A record showing forecast costs landed accurate while forecast benefits landed
