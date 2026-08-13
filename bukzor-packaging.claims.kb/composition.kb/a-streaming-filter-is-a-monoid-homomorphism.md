@@ -22,8 +22,12 @@ Two structural consequences, both of them practical:
 
 - **The streaming prefix of a pipeline is everything before its first fold.**
   A fold precomposed with a homomorphism is a fold; a fold *post*composed with
-  anything is still a fold. So a pipeline's memory profile is decided by the
-  position of the earliest fold, and the rule is to move folds right.
+  anything is still a fold. So the rule is to move folds right. What the fold's
+  position sets is the pipeline's *latency* profile -- when output can begin.
+  Its **memory** profile is set by the earliest *unbounded-state* stage, and
+  the two come apart: dedup streams (prefix-monotone, below) and still holds
+  every distinct item. An earlier revision said memory was set by the earliest
+  fold; the tool this file already cites disproves it.
 - **Adjacent homomorphisms fuse.** Replacing `a | b` by one arrow computing
   *f*<sub>*b*</sub> ∘ *f*<sub>*a*</sub> is licensed by the law, and it elides
   one serialization round trip and one process. This is the only argument for
@@ -40,7 +44,11 @@ in *f*(*xs* ++ *ys*).
 The general property is weaker: *f* is **prefix-monotone** -- extending the
 input only extends the output, so *f* can be computed incrementally. Every
 homomorphism is prefix-monotone; `uniq` is prefix-monotone and not a
-homomorphism. Prefix-monotonicity is the honest characterization of streaming;
+homomorphism. A homomorphism on a free monoid is determined by its action on
+single messages -- it *is* `concatMap`, stateless per message -- while
+prefix-monotone tools carry state, bounded (`uniq`, one message of lookback) or
+unbounded (dedup, one entry per distinct item).
+Prefix-monotonicity is the honest characterization of streaming;
 the homomorphism law is the **decidable special case**, the one a property test
 can check by splitting an input at every position. That is why the discipline
 worth adopting is *declare which one you are*, not *be a homomorphism*.

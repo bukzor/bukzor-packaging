@@ -42,6 +42,14 @@ sufficient" it graduates on KNOWLEDGE, and the kb's own counter-pressure
 paragraph says it stays. The conjunctive rule gets it right without an
 exception clause -- which is the argument for the correction.
 
+What the table cannot do is discriminate this rule from **AUDIENCE alone**:
+every settled row agrees with plain AUDIENCE too, because no settled call has
+AUDIENCE ✓ with both code tests ✗. The (KNOWLEDGE ∨ SUBCOMMANDS) conjunct has
+therefore never changed a decision -- by this ledger's own bar it is
+conjecture, waiting on a tool with a real audience and neither code test. If
+such a tool graduates anyway, the conjunct is dead weight; if it stays home,
+the conjunct earned its place.
+
 ## What it costs
 
 The rule is **not decidable from the files**. Its necessary conjunct is L3,
@@ -74,3 +82,6 @@ tiebreaker, and
 would make the decision computable, which would be a considerable
 simplification. `claude-s` is the standing test case: if it is ever packaged
 and that turns out well, this claim is wrong.
+
+The second conjunct has its own, cheaper defeater, stated above: any settled
+call that separates it from plain AUDIENCE, in either direction.

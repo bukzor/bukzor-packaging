@@ -14,14 +14,24 @@ references *u*. Operation: take a cluster *S* and form the induced subgraph
 *G*[*S*]. Law:
 
 > **A cluster of two or more may reach status `accepted` or `shipped` only
-> if *G*[*S*] has no isolated vertex.**
+> if *G*[*S*] is connected, ignoring edge direction.**
 
 An isolated member shares nothing with its siblings -- it would import
 nothing from them and export nothing to them. A set of such members is a
 directory with a common prefix, which is the trap
 `../levels.kb/the-name-abstraction-may-narrow-but-never-decide.md` names.
 
-Three qualifications, each doing work:
+Four qualifications, each doing work:
+
+**Connected, not merely no-isolated-vertex.** The law used to demand only
+that no member be isolated -- necessary, but weaker: a four-member cluster
+whose edges pair off (a–b, c–d) has no isolated vertex and is two packages
+wearing one name, the same trap one level up. No measured cluster yet
+separates the two conditions (every current one is small, with a single hub),
+which is how the weaker form survived unnoticed. `../seams.py` still reports
+isolated vertices -- the necessary condition -- so its failing verdicts remain
+sound, and its passing verdicts are one connectivity check weaker than the
+law.
 
 **Vacuous on singletons.** A one-member package has no siblings, so the law
 says nothing about it. `git-localhost-store` needs no seam argument at all;

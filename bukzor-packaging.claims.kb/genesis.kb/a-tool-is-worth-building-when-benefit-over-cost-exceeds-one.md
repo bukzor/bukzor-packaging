@@ -28,12 +28,19 @@ The gate is indifferent: for *c* > 0, *b*/*c* > 1 exactly when *b* − *c* > 0.
 So the two forms cannot disagree about whether a single tool is worth
 building, and any argument that they do is confused.
 
-They disagree about **order**, and that is the whole reason to prefer the
-quotient. With a time budget *B* and many candidates, choosing by decreasing
-*b*/*c* is what maximizes total benefit; choosing by decreasing *b* − *c*
-does not. The situation here is exactly that shape -- sixteen candidates and
-one person -- so the ranking instrument is the one that matters, and the
-difference form quietly answers a question nobody asked.
+They disagree about **order**, and the regime decides which theorem backs the
+quotient. When everything worth doing will eventually be done and the order
+only decides *when* each benefit starts arriving, minimizing the benefit
+forgone to delay (Σ *b*ⱼ · completion time) is a sequencing problem, and
+decreasing *b*/*c* is **Smith's rule** -- optimal, not heuristic. When a hard
+budget truncates the list instead, the problem is 0/1 knapsack and
+density-greedy is only an approximation: with budget 10, an item at *b*/*c* =
+10, *c* = 1 ranks above one at *b*/*c* = 2, *c* = 10, and taking the dense one
+first yields 10 where the big one alone yields 20. The situation here is the
+first regime -- one person, a rolling budget, no deadline -- so the quotient is
+the right instrument for a better reason than this section used to give: the
+earlier text claimed optimality *under a budget*, which is the regime where the
+claim is false. The difference form still answers a question nobody asked.
 
 ## Smallest instance
 
