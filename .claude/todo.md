@@ -13,6 +13,18 @@ lives there and only the action lives here.
       `dispositions.md`; plus `Skill(llm-subtask)`'s schema (shared skill,
       bukzor approval). Full state: `requirements.md` R4 and
       `~/.claude/sessions.kb/penguin.kb/bukzor-packaging-r4-ruling-and-reset-question.md`.
+- [~] bukzor rules: keep or reset the 2026-08-12..13 theory work (baseline
+      `5db0ce4`; everything since is prose in this repo, checks clean). Both
+      live sessions froze 2026-08-13T16:30 pending re-orientation. A wholesale
+      reset discards three bukzor rulings -- the R1-R6 requirements spec, the
+      SWEh benefit unit, INFLATE's recorded decline; unsigned claims can be
+      dropped per-file instead (`grep -rH '^standing:' bukzor-packaging.claims.kb/`).
+- [ ] bukzor re-reads QUOTIENT
+      (`bukzor-packaging.claims.kb/genesis.kb/a-tool-is-worth-building-when-benefit-over-cost-exceeds-one.md`):
+      commit `995763c` rewrote this user-signed claim's argument (Smith's rule
+      for the sequencing regime, replacing an optimality claim that was false
+      under a budget; conclusion unchanged) without re-ratification. Re-sign
+      or downgrade the standing.
 - [ ] Advertise `claude-export` where its audience will meet it: a line in
       `~/.claude/CLAUDE.md` under the Bash conventions, since it is the only way to
       make an environment variable survive between `Bash()` calls. Verified working
