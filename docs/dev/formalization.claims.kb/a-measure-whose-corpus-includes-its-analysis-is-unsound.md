@@ -3,7 +3,7 @@ label: REFLEX
 standing: agent
 why:
     - a-heuristic-check-declares-which-verdicts-are-sound.md
-verify: ../../../bukzor-packaging.claims.kb/retirement.py --observed
+verify: ../../../claims.kb/bukzor-packaging.claims.kb/retirement.py --observed
 ---
 
 # A Measure Whose Corpus Includes Its Own Analysis Is Unsound

@@ -40,5 +40,5 @@ scoped to something you have.
 
 See `trusted-publishing-pins-the-workflow-filename.md` for what the grant
 binds, and
-`../bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`
+`../claims.kb/bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`
 for the guard-placement claim this is the smallest instance of.

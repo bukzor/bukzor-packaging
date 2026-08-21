@@ -34,4 +34,4 @@ registration on a separate index and proves nothing about this one.
 It does not prove anything about the package being built: the mint request
 carries no project name, so a registered sibling greens it. See
 `the-first-upload-is-the-only-publisher-test.md`. Filed as a claim in
-`../bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`.
+`../claims.kb/bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`.

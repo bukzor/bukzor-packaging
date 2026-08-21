@@ -3,7 +3,7 @@ label: SOUND
 standing: agent
 why:
     - a-structure-earns-its-keep-by-the-decision-it-changes.md
-verify: ../../../bukzor-packaging.claims.kb/retirement.py
+verify: ../../../claims.kb/bukzor-packaging.claims.kb/retirement.py
 ---
 
 # A Heuristic Check Declares Which of Its Verdicts Are Sound

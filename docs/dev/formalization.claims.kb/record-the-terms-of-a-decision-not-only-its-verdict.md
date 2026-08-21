@@ -3,7 +3,7 @@ label: TERMS
 standing: agent
 why:
     - an-exchange-rate-is-elicited-from-past-decisions.md
-verify: ../../../bukzor-packaging.claims.kb/retirement.py
+verify: ../../../claims.kb/bukzor-packaging.claims.kb/retirement.py
 ---
 
 # Record the Terms of a Decision, Not Only Its Verdict

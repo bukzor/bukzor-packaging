@@ -1,7 +1,7 @@
 # formalization.claims.kb -- how the ledger above was built
 
 Claims about *doing* a formalization, extracted from the one in
-`../../../bukzor-packaging.claims.md` because none of them is about packaging.
+`../../../claims.kb/bukzor-packaging.claims.md` because none of them is about packaging.
 They transfer; the ledger they came from does not.
 
 - `prior:` `Skill(formalize)`'s bar -- an identification carries a carrier,
@@ -69,4 +69,4 @@ means. Spend real effort on both and expect the expensive error here.
   its token cost is paid before any of its value arrives. If a claim needs more
   than a screen, the instance belongs in the ledger it came from.
 - **Do not import subject matter.** A claim mentioning a `claude-*` tool is
-  drifting back into `../../../bukzor-packaging.claims.kb/`; cite it instead.
+  drifting back into `../../../claims.kb/bukzor-packaging.claims.kb/`; cite it instead.

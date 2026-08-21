@@ -16,7 +16,7 @@ Apache-2.0, via trusted publishing from `release-pypi.yml`. Two facts from that
 step earned files of their own -- the workflow filename is the unit of
 authorization (`../mechanics.kb/trusted-publishing-pins-the-workflow-filename.md`)
 and only a *successful* upload is irreversible, which is what makes a rehearsal
-free (`../bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`).
+free (`../claims.kb/bukzor-packaging.claims.kb/closure.kb/only-a-successful-publish-is-irreversible.md`).
 
 Members, **ported not moved**, then deleted from `~/bin` (`922d325`):
 
@@ -171,4 +171,4 @@ harness. Two steps, both load-bearing, neither budgeted.
 The lesson generalizes and is filed as one: an estimate covering the artifact
 can omit the *installation*, and the omitted part is the part that touches
 everything already depending on the old arrangement. See
-`../bukzor-packaging.claims.kb/cost.kb/`.
+`../claims.kb/bukzor-packaging.claims.kb/cost.kb/`.

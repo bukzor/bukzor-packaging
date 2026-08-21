@@ -20,7 +20,7 @@ site was `ENCODED="$(claude-path "$WORK_DIR")"` -- a bare command, so PATH
 decided, and the first entry on this machine's PATH is `~/bin`. Declaring
 the dependency guarantees *a* correct encoder is installed; it does not
 guarantee it is the one that runs. That is the coherence cube
-(`../bukzor-packaging.claims.kb/coherence.kb/two-live-implementations-are-resolved-by-search-order.md`):
+(`../claims.kb/bukzor-packaging.claims.kb/coherence.kb/two-live-implementations-are-resolved-by-search-order.md`):
 provenance and resolution are independent axes.
 
 The failure mode is why it mattered: a wrong encoder does not error. It

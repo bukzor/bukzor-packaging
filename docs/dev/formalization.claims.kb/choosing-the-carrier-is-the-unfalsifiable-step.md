@@ -21,7 +21,7 @@ you *content*, not instances.
 
 ## Smallest instance
 
-The transposed category in `../../../bukzor-packaging.claims.md`'s killed
+The transposed category in `../../../claims.kb/bukzor-packaging.claims.md`'s killed
 conjectures. Taking the artifacts as the objects made composition mean
 reachability in the reference graph, which an existing script already reported.
 No law broke. The laws were true and said nothing, and the fix was not a weaker

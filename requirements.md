@@ -68,7 +68,7 @@ periods, *c* from `TERMS` re-denominated in SWEh (`timebox` is a stop-loss,
 not the gate's cost). N is the one number still open; proposed 26 (one
 year), `FORECAST`'s discount self-regulating the long bound. Rivals priced,
 per the theory's own `RIVALS`: bare minutes, the incumbent
-(`bukzor-packaging.claims.kb/cost.kb/CLAUDE.md:31` -- "Units are minutes,
+(`claims.kb/bukzor-packaging.claims.kb/cost.kb/CLAUDE.md:31` -- "Units are minutes,
 and they are guesses"), lose on machinery -- no estimate object, no
 confidence bands, no dollar leg -- not on the number, a fixed 60×
 conversion; a bespoke schema loses on re-derivation for no gain.
