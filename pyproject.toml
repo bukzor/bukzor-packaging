@@ -1,0 +1,12 @@
+[project]
+name = "bukzor-packaging"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "llm-claims-kb",
+    "llm-kb",
+]
+
+[tool.uv.sources]
+llm-claims-kb = { path = "../../repo/github.com/bukzor/bukzor-agent-skills/llm-claims-kb", editable = true }
+llm-kb = { path = "../../repo/github.com/bukzor/bukzor-agent-skills/llm-kb", editable = true }
