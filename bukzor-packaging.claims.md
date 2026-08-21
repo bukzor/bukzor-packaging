@@ -1,7 +1,6 @@
 ---
 label: LEDGER
 standing: agent
-last-updated: 2026-08-13
 ---
 
 # bukzor-packaging -- claim ledger
